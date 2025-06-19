@@ -3,6 +3,7 @@ import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_text_field.dart';
+import 'package:crypto_education/views/screens/app.dart';
 import 'package:crypto_education/views/screens/auth/forget_password.dart';
 import 'package:crypto_education/views/screens/auth/signup.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,9 @@ class _SigninState extends State<Signin> {
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
 
-  void signInCallback() async {}
+  void signInCallback() async {
+    Get.offAll(() => App());
+  }
 
   @override
   Widget build(BuildContext context) {

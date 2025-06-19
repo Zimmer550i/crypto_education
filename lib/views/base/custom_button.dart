@@ -88,7 +88,7 @@ class _CustomButtonState extends State<CustomButton> {
                           : ColorFilter.mode(
                               widget.isSecondary
                                   ? AppColors.cyan
-                                  : AppColors.cyan[25]!,
+                                  : AppColors.cyan.shade900,
                               BlendMode.srcIn,
                             ),
                     ),

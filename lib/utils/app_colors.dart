@@ -5,7 +5,7 @@ class AppColors {
 
   static Color black = Color(0xFF000000);
 
-  static Color red = Color.fromARGB(255, 255, 0, 0);
+  static Color red = Color(0xffF53838);
 
   static MaterialColor cyan = MaterialColor(0xFF62C1BF, {
     25: Color(0xFFF6FFFF),

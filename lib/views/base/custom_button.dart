@@ -17,6 +17,7 @@ class CustomButton extends StatefulWidget {
   final double radius;
   final double? fontSize;
   final double iconSize;
+  final bool coloredIcon;
   const CustomButton({
     super.key,
     required this.text,
@@ -29,6 +30,7 @@ class CustomButton extends StatefulWidget {
     this.isLoading = false,
     this.isDisabled = false,
     this.fontSize,
+    this.coloredIcon = false,
     this.iconSize = 24,
     this.height = 50,
     this.width = double.infinity,
@@ -74,19 +76,21 @@ class _CustomButtonState extends State<CustomButton> {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                spacing: 8,
+                spacing: 12,
                 children: [
                   if (widget.leading != null)
                     SvgPicture.asset(
                       widget.leading!,
                       height: widget.iconSize,
                       width: widget.iconSize,
-                      colorFilter: ColorFilter.mode(
-                        widget.isSecondary
-                            ? AppColors.cyan
-                            : AppColors.cyan[25]!,
-                        BlendMode.srcIn,
-                      ),
+                      colorFilter: widget.coloredIcon
+                          ? null
+                          : ColorFilter.mode(
+                              widget.isSecondary
+                                  ? AppColors.cyan
+                                  : AppColors.cyan[25]!,
+                              BlendMode.srcIn,
+                            ),
                     ),
                   Text(
                     widget.text,

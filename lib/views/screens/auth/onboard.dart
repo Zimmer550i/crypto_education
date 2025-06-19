@@ -1,7 +1,9 @@
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
+import 'package:crypto_education/views/screens/auth/signin.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Onboard extends StatelessWidget {
   const Onboard({super.key});
@@ -35,6 +37,9 @@ class Onboard extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       CustomButton(
+                        onTap: () {
+                          Get.off(() => Signin());
+                        },
                         text: "Get Start",
                         trailing: AppIcons.arrowRight,
                       ),

@@ -27,6 +27,14 @@ class AppTexts {
     color: AppColors.gray[25],
   );
 
+  static TextStyle dlgm = TextStyle(
+    fontFamily: "Poppins",
+    fontSize: 48,
+    height: 60 / 48,
+    fontWeight: FontWeight.w500,
+    color: AppColors.gray[25],
+  );
+
   static TextStyle dmdr = TextStyle(
     fontFamily: "Poppins",
     fontSize: 36,
@@ -77,6 +85,14 @@ class AppTexts {
     fontSize: 24,
     height: 32 / 24,
     fontWeight: FontWeight.w500,
+    color: AppColors.gray[25],
+  );
+
+  static TextStyle dxss = TextStyle(
+    fontFamily: "Poppins",
+    fontSize: 24,
+    height: 32 / 24,
+    fontWeight: FontWeight.w600,
     color: AppColors.gray[25],
   );
 

@@ -27,4 +27,7 @@ class AppIcons {
   static const String userCrown = 'assets/icons/user_crown.svg';
   static const String videos = 'assets/icons/videos.svg';
   static const String pen = 'assets/icons/pen.svg';
+  static const String link = 'assets/icons/link.svg';
+  static const String clock = 'assets/icons/clock.svg';
+  static const String bell = 'assets/icons/bell.svg';
 }

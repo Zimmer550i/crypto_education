@@ -110,7 +110,7 @@ class ProfilePicture extends StatelessWidget {
                   color: Colors.black.withAlpha((30 * 2.55).toInt()),
                   shape: BoxShape.circle
                 ),
-                child: Center(child: CustomSvg(asset: AppIcons.edit, size: 32)),
+                child: Center(child: CustomSvg(asset: AppIcons.camera, size: 32)),
               ),
             ),
         ],

@@ -2,10 +2,11 @@ class AppIcons {
   static const String about = 'assets/icons/about.svg';
   static const String arrowLeft = 'assets/icons/arrow_left.svg';
   static const String arrowRight = 'assets/icons/arrow_right.svg';
+  static const String arrowUp = 'assets/icons/arrow_up.svg';
   static const String back = 'assets/icons/back.svg';
   static const String chat = 'assets/icons/chat.svg';
   static const String crown = 'assets/icons/crown.svg';
-  static const String edit = 'assets/icons/edit.svg';
+  static const String camera = 'assets/icons/camera.svg';
   static const String eye = 'assets/icons/eye.svg';
   static const String eyeOff = 'assets/icons/eye_off.svg';
   static const String google = 'assets/icons/google.svg';
@@ -21,6 +22,7 @@ class AppIcons {
   static const String notification = 'assets/icons/notification.svg';
   static const String play = 'assets/icons/play.svg';
   static const String privacy = 'assets/icons/privacy.svg';
+  static const String privacy2 = 'assets/icons/privacy2.svg';
   static const String profile = 'assets/icons/profile.svg';
   static const String tickCircle = 'assets/icons/tick_circle.svg';
   static const String user = 'assets/icons/user.svg';
@@ -30,4 +32,12 @@ class AppIcons {
   static const String link = 'assets/icons/link.svg';
   static const String clock = 'assets/icons/clock.svg';
   static const String bell = 'assets/icons/bell.svg';
+  static const String history = 'assets/icons/history.svg';
+  static const String decoration = 'assets/icons/decoration.svg';
+  static const String delete = 'assets/icons/delete.svg';
+  static const String edit = 'assets/icons/edit.svg';
+  static const String more = 'assets/icons/more.svg';
+  static const String rename = 'assets/icons/rename.svg';
+  static const String settings = 'assets/icons/settings.svg';
+  static const String terms = 'assets/icons/terms.svg';
 }

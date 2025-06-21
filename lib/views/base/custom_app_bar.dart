@@ -19,26 +19,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.gray[900],
       automaticallyImplyLeading: false,
       titleSpacing: 0,
-      title: Row(
-        children: [
-          SizedBox(width: 20),
-          InkWell(
-            onTap: () => hasLeading ? Get.back() : null,
-            borderRadius: BorderRadius.circular(8),
-            child: SizedBox(
-              height: 24,
-              width: 24,
-              child: hasLeading
-                  ? Center(child: CustomSvg(asset: AppIcons.back))
-                  : const SizedBox(),
+      title: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () => hasLeading ? Get.back() : null,
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                height: 24,
+                width: 24,
+                child: hasLeading
+                    ? Center(child: CustomSvg(asset: AppIcons.back))
+                    : const SizedBox(),
+              ),
             ),
-          ),
-          Spacer(),
-          Text(title, style: AppTexts.tmds),
-          Spacer(),
-          SizedBox(width: 24),
-          SizedBox(width: 20),
-        ],
+            const SizedBox(width: 20,),
+            Expanded(child: Center(child: Text(title, style: AppTexts.tmds, maxLines: 3,))),
+            const SizedBox(width: 20,),
+            SizedBox(width: 24),
+          ],
+        ),
       ),
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(1),

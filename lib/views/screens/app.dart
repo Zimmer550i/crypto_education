@@ -4,11 +4,11 @@ import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/custom_bottom_navbar.dart';
 import 'package:crypto_education/views/base/profile_picture.dart';
-import 'package:crypto_education/views/screens/chat/chat.dart';
-import 'package:crypto_education/views/screens/home/home.dart';
+import 'package:crypto_education/views/screens/chat.dart';
+import 'package:crypto_education/views/screens/home.dart';
 import 'package:crypto_education/views/screens/notifications.dart';
 import 'package:crypto_education/views/screens/profile/profile.dart';
-import 'package:crypto_education/views/screens/videos/videos.dart';
+import 'package:crypto_education/views/screens/videos.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 

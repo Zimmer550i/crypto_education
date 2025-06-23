@@ -162,7 +162,7 @@ class _ChatState extends State<Chat> {
                   decoration: InputDecoration(
                     isDense: true,
                     border: InputBorder.none,
-                    hintText: "Ask about blockchain, NFTs, smart contracts…",
+                    hintText: "Got any questions? Ask me...",
                     hintStyle: AppTexts.txsr.copyWith(
                       color: AppColors.gray.shade100,
                     ),

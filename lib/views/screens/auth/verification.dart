@@ -1,31 +1,58 @@
+import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
+import 'package:crypto_education/views/screens/app.dart';
 import 'package:crypto_education/views/screens/auth/reset_password.dart';
-import 'package:crypto_education/views/screens/auth/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
 class Verification extends StatefulWidget {
   final bool isPasswordReset;
-  const Verification({super.key, this.isPasswordReset = false});
+  final String email;
+  const Verification({
+    super.key,
+    this.isPasswordReset = false,
+    required this.email,
+  });
 
   @override
   State<Verification> createState() => _VerificationState();
 }
 
 class _VerificationState extends State<Verification> {
+  final auth = Get.find<AuthController>();
+  final codeCtrl = TextEditingController();
+
   void callBack() async {
-    if(widget.isPasswordReset) {
-      Get.to(() => ResetPassword());
-    }else{
-      Get.off(() => Signin());
+    final message = await auth.verifyEmail(widget.email, codeCtrl.text);
+
+    if (message == "success") {
+      if (widget.isPasswordReset) {
+        Get.to(() => ResetPassword());
+      } else {
+        Get.off(() => App());
+      }
+      Get.snackbar("Account verified successfully", "Welcome to Crypto Education");
+    } else {
+      Get.snackbar("Error Occured", message);
     }
   }
 
-  void resendOtp() async {}
+  void resendOtp() async {
+    final message = await auth.sendOtp(widget.email);
+
+    if (message == "success") {
+      Get.snackbar(
+        "OTP sent successfully",
+        "Please enter the OTP sent to ${widget.email}",
+      );
+    } else {
+      Get.snackbar("Error Occured", message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +72,7 @@ class _VerificationState extends State<Verification> {
                 const SizedBox(height: 32),
                 Pinput(
                   length: 6,
+                  controller: codeCtrl,
                   defaultPinTheme: PinTheme(
                     height: 50,
                     width: 50,
@@ -59,16 +87,15 @@ class _VerificationState extends State<Verification> {
                     width: 3,
                     color: AppColors.cyan,
                   ),
-                  validator: (value) {
-                    if (value == "111111") {
-                      Get.to(() => Signin());
-                      return null;
-                    }
-                    return "Incorrect OTP";
-                  },
                 ),
                 const SizedBox(height: 24),
-                CustomButton(text: "Verify", onTap: callBack),
+                Obx(
+                  () => CustomButton(
+                    text: "Verify",
+                    isLoading: auth.isLoading.value,
+                    onTap: callBack,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

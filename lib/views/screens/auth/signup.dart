@@ -1,3 +1,4 @@
+import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -16,13 +17,29 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final auth = Get.find<AuthController>();
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
   final conPassCtrl = TextEditingController();
 
   void signUpCallback() async {
-    Get.to(() => Verification());
+    final message = await auth.signup(
+      nameCtrl.text,
+      emailCtrl.text,
+      passCtrl.text,
+      conPassCtrl.text,
+    );
+
+    if (message == "success") {
+      Get.to(() => Verification(email: emailCtrl.text));
+      Get.snackbar(
+        "Account created successfully",
+        "Please check your email to get verification code.",
+      );
+    } else {
+      Get.snackbar("Error Occured", message);
+    }
   }
 
   @override
@@ -56,6 +73,7 @@ class _SignupState extends State<Signup> {
                   CustomTextField(
                     controller: passCtrl,
                     title: "Password",
+                    isPassword: true,
                     leading: AppIcons.lock,
                     hintText: "Enter your password",
                   ),
@@ -64,10 +82,17 @@ class _SignupState extends State<Signup> {
                     controller: conPassCtrl,
                     title: "Confirm Password",
                     leading: AppIcons.lock,
+                    isPassword: true,
                     hintText: "Re-Enter your password",
                   ),
                   const SizedBox(height: 24),
-                  CustomButton(text: "Sign Up", onTap: signUpCallback),
+                  Obx(
+                    () => CustomButton(
+                      text: "Sign Up",
+                      isLoading: auth.isLoading.value,
+                      onTap: signUpCallback,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

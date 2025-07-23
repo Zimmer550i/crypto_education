@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_text_field.dart';
@@ -15,8 +17,31 @@ class EditPersonalInformation extends StatefulWidget {
 }
 
 class _EditPersonalInformationState extends State<EditPersonalInformation> {
+  final user = Get.find<UserController>();
   File? _image;
-  final nameCtrl = TextEditingController(text: "Jenny Flores");
+  final nameCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    nameCtrl.text = user.userInfo.value?.fullName ?? "Your Name Here";
+  }
+
+  void onCallBack() async {
+    Map<String, dynamic> payload = {"full_name": nameCtrl.text};
+
+    if (_image != null) {
+      payload.addAll({"image": _image});
+    }
+    final message = await user.updateInfo(payload);
+
+    if (message == "success") {
+      Get.back();
+      Get.snackbar("Successful", "Profile information successfully updated");
+    } else {
+      Get.snackbar("Error Occured", message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +55,7 @@ class _EditPersonalInformationState extends State<EditPersonalInformation> {
             const SizedBox(height: 24),
             Align(
               child: ProfilePicture(
-                image: "https://thispersondoesnotexist.com",
+                image: ApiService.getImgUrl(user.userInfo.value?.image),
                 imageFile: _image,
                 isEditable: true,
                 imagePickerCallback: (val) {
@@ -43,11 +68,14 @@ class _EditPersonalInformationState extends State<EditPersonalInformation> {
             const SizedBox(height: 32),
             CustomTextField(controller: nameCtrl, title: "Name"),
             const SizedBox(height: 32),
-            CustomButton(
-              text: "Save Changes",
-              onTap: () {
-                Get.back();
-              },
+            Obx(
+              () => CustomButton(
+                text: "Save Changes",
+                isLoading: user.isLoading.value,
+                onTap: () {
+                  onCallBack();
+                },
+              ),
             ),
           ],
         ),

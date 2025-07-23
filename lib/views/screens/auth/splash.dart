@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
+import 'package:crypto_education/views/screens/app.dart';
 import 'package:crypto_education/views/screens/auth/onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,16 +18,16 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  bool isVerified = false;
+
   @override
   void initState() {
     super.initState();
+    verifyToken();
     _controller = AnimationController(vsync: this, duration: waitTime);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn)
       ..addListener(() {
         setState(() {});
-        if (_animation.isCompleted) {
-          Get.off(() => Onboard(), transition: Transition.fadeIn);
-        }
       });
 
     _controller.forward();
@@ -78,5 +80,21 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  void verifyToken() async {
+    final time = Stopwatch();
+    time.start();
+    isVerified = await Get.find<AuthController>().previouslyLoggedIn();
+
+    if (time.elapsed < Duration(seconds: 2)) {
+      await Future.delayed(Duration(seconds: 2) - time.elapsed);
+    }
+
+    if (isVerified) {
+      Get.offAll(() => App());
+    } else {
+      Get.offAll(() => Onboard());
+    }
   }
 }

@@ -1,3 +1,6 @@
+import 'package:crypto_education/controllers/auth_controller.dart';
+// ignore: unused_import
+import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/models/clickable_button_model.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
@@ -8,7 +11,7 @@ import 'package:crypto_education/views/screens/profile/info.dart';
 import 'package:crypto_education/views/screens/profile/personal_information.dart';
 import 'package:crypto_education/views/screens/profile/subscription_plan.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -27,17 +30,17 @@ class Profile extends StatelessWidget {
     ClickableButtonModel(
       icon: AppIcons.info,
       title: "Terms of Services",
-      route: Info(title: "Terms of Service", data: "data"),
+      route: Info(title: "Terms of Service", data: "terms_conditions"),
     ),
     ClickableButtonModel(
       icon: AppIcons.privacy,
       title: "Privacy Policy",
-      route: Info(title: "Privacy Policy", data: "data"),
+      route: Info(title: "Privacy Policy", data: "privacy_policies"),
     ),
     ClickableButtonModel(
       icon: AppIcons.about,
       title: "About Us",
-      route: Info(title: "About Us", data: "data"),
+      route: Info(title: "About Us", data: "about_us"),
     ),
     ClickableButtonModel(icon: AppIcons.logout, title: "Logout"),
   ];
@@ -138,7 +141,7 @@ class Profile extends StatelessWidget {
                         text: "Logout",
                         isSecondary: true,
                         onTap: () async {
-                          Get.back();
+                          Get.find<AuthController>().logout();
                         },
                       ),
                     ),

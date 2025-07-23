@@ -1,3 +1,5 @@
+import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -10,6 +12,7 @@ import 'package:crypto_education/views/screens/notifications.dart';
 import 'package:crypto_education/views/screens/profile/profile.dart';
 import 'package:crypto_education/views/screens/videos.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 
 class App extends StatefulWidget {
@@ -20,12 +23,18 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final user = Get.find<UserController>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = PageController();
   final List<Widget> pages = [Home(), Videos(), Chat(), Profile()];
 
   int index = 0;
   bool showingHistory = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +59,12 @@ class _AppState extends State<App> {
                     child: Row(
                       children: [
                         ProfilePicture(
-                          image: "https://thispersondoesnotexist.com",
+                          image: ApiService.getImgUrl(user.userInfo.value?.image),
                           size: 44,
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          "Hi, Jenny",
+                          "Hi, ${user.userInfo.value?.fullName}",
                           style: AppTexts.tlgm.copyWith(
                             color: AppColors.gray.shade100,
                           ),

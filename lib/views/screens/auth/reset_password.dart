@@ -1,3 +1,4 @@
+import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -16,11 +17,19 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+  final auth = Get.find<AuthController>();
   final passCtrl = TextEditingController();
   final conPassCtrl = TextEditingController();
 
   void callBack() async {
-    Get.off(() => Signin());
+    final message = await auth.resetPassword(passCtrl.text, conPassCtrl.text);
+
+    if (message == "success") {
+      Get.offAll(() => Signin());
+      Get.snackbar("Password reset successfully", "Please sign in again");
+    } else {
+      Get.snackbar("Error Occured", message);
+    }
   }
 
   @override
@@ -43,6 +52,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   controller: passCtrl,
                   title: "Password",
                   leading: AppIcons.lock,
+                  isPassword: true,
                   hintText: "Enter your password",
                 ),
                 const SizedBox(height: 24),
@@ -50,10 +60,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                   controller: conPassCtrl,
                   title: "Confirm Password",
                   leading: AppIcons.lock,
+                  isPassword: true,
                   hintText: "Re-Enter your password",
                 ),
                 const SizedBox(height: 40),
-                CustomButton(text: "Verify", onTap: callBack),
+                Obx(
+                  () => CustomButton(
+                    text: "Verify",
+                    isLoading: auth.isLoading.value,
+                    onTap: callBack,
+                  ),
+                ),
               ],
             ),
           ),

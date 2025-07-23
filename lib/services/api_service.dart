@@ -1,14 +1,16 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 // import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/services/shared_prefs_service.dart';
 
 class ApiService {
-  final String devUrl = "http://192.168.10.18:8001";
+  final String devUrl = "http://172.252.13.79:3235";
   final String prodUrl = "";
-  static final String imgUrl = "";
+  static final String imgUrl = "http://172.252.13.79:3235";
   final bool inDevelopment = true;
   final bool showAPICalls = true;
 
@@ -191,7 +193,8 @@ class ApiService {
 
   void _checkTokenExpiry(bool authReq, http.Response response) {
     if (response.statusCode == 401 && authReq) {
-      // Get.find<AuthController>().logout();
+      Get.find<AuthController>().logout();
+      Get.snackbar("Error Occured", "Sign in expired");
     }
   }
 }

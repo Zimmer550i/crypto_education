@@ -1,3 +1,4 @@
+import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
@@ -7,24 +8,44 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgetPassword extends StatefulWidget {
-  final String? email;
-  const ForgetPassword({super.key, this.email});
+  final String email;
+  const ForgetPassword({super.key, required this.email});
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
+  final auth = Get.find<AuthController>();
   final emailCtrl = TextEditingController();
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    emailCtrl.text = widget.email ?? "";
+    emailCtrl.text = widget.email;
   }
 
   void callBack() async {
-    Get.to(() => Verification(isPasswordReset: true,));
+    setState(() {
+      isLoading = true;
+    });
+
+    final message = await auth.sendOtp(widget.email);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (message == "success") {
+      Get.to(() => Verification(isPasswordReset: true, email: widget.email));
+      Get.snackbar(
+        "OTP sent successfully",
+        "Please enter the OTP sent to ${widget.email}",
+      );
+    } else {
+      Get.snackbar("Error Occured", message);
+    }
   }
 
   @override
@@ -45,7 +66,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   hintText: "Enter your email",
                 ),
                 const SizedBox(height: 24),
-                CustomButton(text: "Send OTP", onTap: callBack),
+                CustomButton(
+                  text: "Send OTP",
+                  isLoading: isLoading,
+                  onTap: callBack,
+                ),
               ],
             ),
           ),

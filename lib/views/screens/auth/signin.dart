@@ -1,3 +1,4 @@
+import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -17,11 +18,18 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+  final auth = Get.find<AuthController>();
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
 
   void signInCallback() async {
-    Get.offAll(() => App());
+    final message = await auth.login(emailCtrl.text, passCtrl.text);
+
+    if (message == "success") {
+      Get.offAll(() => App());
+    } else {
+      Get.snackbar("Error Occured", message);
+    }
   }
 
   @override
@@ -48,6 +56,7 @@ class _SigninState extends State<Signin> {
                   CustomTextField(
                     controller: passCtrl,
                     title: "Password",
+                    isPassword: true,
                     leading: AppIcons.lock,
                     hintText: "Enter your password",
                   ),
@@ -57,7 +66,7 @@ class _SigninState extends State<Signin> {
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        Get.to(() => ForgetPassword());
+                        Get.to(() => ForgetPassword(email: emailCtrl.text,));
                       },
                       child: Text(
                         "Forgot Password?",
@@ -68,7 +77,13 @@ class _SigninState extends State<Signin> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  CustomButton(text: "Sign In", onTap: signInCallback),
+                  Obx(
+                    () => CustomButton(
+                      text: "Sign In",
+                      isLoading: auth.isLoading.value,
+                      onTap: signInCallback,
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   Row(
                     spacing: 15,

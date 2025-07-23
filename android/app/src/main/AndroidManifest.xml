@@ -17,7 +17,7 @@
     </queries>
     
     <application
-        android:label="crypto_education"
+        android:label="Crypto Education"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

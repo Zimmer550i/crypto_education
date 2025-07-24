@@ -1,6 +1,9 @@
 import 'package:crypto_education/utils/app_colors.dart';
+import 'package:crypto_education/utils/app_icons.dart';
+import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:get/get.dart';
 
 /// Default portrait controls.
 class CustomFlickPortraitControls extends StatelessWidget {
@@ -50,6 +53,26 @@ class CustomFlickPortraitControls extends StatelessWidget {
             ),
           ),
         ),
+        Positioned(
+          top: 12,
+          left: 20,
+          child: FlickAutoHideChild(
+            child: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                height: 32,
+                width: 32,
+                decoration: BoxDecoration(
+                  color: Color(0xff1b1b1b).withAlpha(128),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(child: CustomSvg(asset: AppIcons.arrowLeft)),
+              ),
+            ),
+          ),
+        ),
         Positioned.fill(
           child: FlickAutoHideChild(
             child: Align(
@@ -57,9 +80,9 @@ class CustomFlickPortraitControls extends StatelessWidget {
               child: Container(
                 color: Color(0xff1b1b1b).withAlpha(128),
                 padding: EdgeInsets.only(
-                  left: iconSize/2,
-                  right: iconSize/2,
-                  bottom: iconSize/4,
+                  left: iconSize / 2,
+                  right: iconSize / 2,
+                  bottom: iconSize / 4,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

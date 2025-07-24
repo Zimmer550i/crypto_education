@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,24 +55,35 @@ class SharedPrefsService {
 
     // Check if the cache is present
     bool cacheExist = cachedData != null && cachedTimestampStr != null;
+    debugPrint(
+      '🔍 Checking cache for key: $key (exists: $cacheExist, override: $override)',
+    );
     if (!override && cacheExist) {
+      debugPrint(
+        '🗄️ Cache present for key: $key with timestamp: $cachedTimestampStr',
+      );
       final cachedTimestamp = DateTime.tryParse(cachedTimestampStr);
       if (cachedTimestamp != null) {
         final expiryDuration = _frequencyToDuration(frequency);
         if (now.difference(cachedTimestamp) < expiryDuration) {
+          debugPrint('🟢 Cache hit for key: $key – returning cached data');
+          debugPrint('📦 Cache: $cachedData');
           return http.Response(cachedData, 200);
         } else {
+          debugPrint('⏰ Cache expired for key: $key – removing stale cache');
           // Cache expired, clear cached data and timestamp
           await prefs.remove(key);
           await prefs.remove('${key}_timestamp');
         }
       } else {
+        debugPrint('❌ Invalid timestamp for key: $key – clearing cache');
         // Invalid timestamp, clear cache
         await prefs.remove(key);
         await prefs.remove('${key}_timestamp');
       }
     }
 
+    debugPrint('🔄 Cache miss or override for key: $key – fetching fresh data');
     // Cache missing or expired, call callback to fetch fresh data
     final response = await fetchCallback();
 
@@ -79,6 +91,9 @@ class SharedPrefsService {
     if (response.statusCode == 200 || response.statusCode == 201) {
       await prefs.setString(key, response.body);
       await prefs.setString('${key}_timestamp', now.toIso8601String());
+      debugPrint(
+        '💾 Cached response for key: $key at ${now.toIso8601String()}',
+      );
     }
 
     return response;

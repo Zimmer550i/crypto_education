@@ -31,14 +31,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       isLoading = true;
     });
 
-    final message = await auth.sendOtp(widget.email);
+    final message = await auth.sendOtp(emailCtrl.text);
 
     setState(() {
       isLoading = false;
     });
 
     if (message == "success") {
-      Get.to(() => Verification(isPasswordReset: true, email: widget.email));
+      Get.to(() => Verification(isPasswordReset: true, email: emailCtrl.text));
       Get.snackbar(
         "OTP sent successfully",
         "Please enter the OTP sent to ${widget.email}",

@@ -116,13 +116,14 @@ class UserController extends GetxController {
       final response = await SharedPrefsService().cacheResponse(
         key: endpointData,
         frequency: CacheFrequency.oneDay,
+        override: settingsInfo[endpointData] == null,
         fetchCallback: () =>
             api.get("/api/v1/settings/$endpointData/", authReq: true),
       );
       final body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        settingsInfo[endpointData] = body['data'][0]['content'];
+        settingsInfo[endpointData] = body['data'].first()['content'];
 
         return "success";
       } else {

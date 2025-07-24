@@ -26,7 +26,12 @@ class _AppState extends State<App> {
   final user = Get.find<UserController>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = PageController();
-  final List<Widget> pages = [Home(), Videos(), Chat(), Profile()];
+  final List<Widget> pages = [
+    Home(key: PageStorageKey("home")),
+    Videos(key: PageStorageKey("videos")),
+    Chat(key: PageStorageKey("chat")),
+    Profile(key: PageStorageKey("profile")),
+  ];
 
   int index = 0;
   bool showingHistory = false;
@@ -59,7 +64,9 @@ class _AppState extends State<App> {
                     child: Row(
                       children: [
                         ProfilePicture(
-                          image: ApiService.getImgUrl(user.userInfo.value?.image),
+                          image: ApiService.getImgUrl(
+                            user.userInfo.value?.image,
+                          ),
                           size: 44,
                         ),
                         const SizedBox(width: 8),

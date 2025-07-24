@@ -1,3 +1,4 @@
+import 'package:crypto_education/models/video.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -8,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class VideoPlayback extends StatelessWidget {
-  const VideoPlayback({super.key});
+  final Video video;
+  const VideoPlayback(this.video, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class VideoPlayback extends StatelessWidget {
             bottom: false,
             child: Stack(
               children: [
-                VideoWidget(),
+                VideoWidget(video.videoFile),
                 Positioned(
                   top: 12,
                   left: 20,
@@ -44,11 +46,13 @@ class VideoPlayback extends StatelessWidget {
             ),
           ),
           Container(
+            width: double.infinity,
             color: AppColors.cyan.shade900,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Text(
-                "How to ride your skateboard and Basic Equipment",
+                video.title,
+                textAlign: TextAlign.left,
                 style: AppTexts.tlgm,
               ),
             ),

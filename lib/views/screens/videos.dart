@@ -1,8 +1,33 @@
+import 'package:crypto_education/controllers/video_controller.dart';
+import 'package:crypto_education/views/base/custom_loading.dart';
+import 'package:crypto_education/views/base/pull_to_refresh.dart';
 import 'package:crypto_education/views/base/video_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class Videos extends StatelessWidget {
+class Videos extends StatefulWidget {
   const Videos({super.key});
+
+  @override
+  State<Videos> createState() => _VideosState();
+}
+
+class _VideosState extends State<Videos> {
+  final video = Get.find<VideoController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((val) {
+      if (video.topics.isEmpty) {
+        video.getTopics().then((message) {
+          if (message != "success") {
+            Get.snackbar("Error Occured", message);
+          }
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,15 +35,35 @@ class Videos extends StatelessWidget {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(height: 24),
-              for (int i = 0; i < 20; i++)
-                Padding(
-                  padding: EdgeInsetsGeometry.only(bottom: 12),
-                  child: VideoCard(),
+          child: PullToRefresh(
+            onRefresh: () async {
+              video.getTopics().then((message) {
+                if (message != "success") {
+                  Get.snackbar("Error Occured", message);
+                }
+              });
+            },
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
+                Obx(
+                  () => Column(
+                    children: [
+                      if (video.isLoading.value)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomLoading(),
+                        ),
+                      for (var topic in video.topics)
+                        Padding(
+                          padding: EdgeInsetsGeometry.only(bottom: 12),
+                          child: VideoCard(topic),
+                        ),
+                    ],
+                  ),
                 ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

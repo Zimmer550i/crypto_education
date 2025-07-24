@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
-  const VideoWidget({super.key});
+  final String url;
+  const VideoWidget(this.url, {super.key});
 
   @override
   State<VideoWidget> createState() => _VideoWidgetState();
@@ -14,14 +15,12 @@ class VideoWidget extends StatefulWidget {
 class _VideoWidgetState extends State<VideoWidget> {
   late FlickManager flickManager;
   late VideoPlayerController _controller;
-  double progress = 0.40;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.networkUrl(
-      Uri.parse('https://www.w3schools.com/html/mov_bbb.mp4'),
-      // Uri.parse('https://mail.google.com/mail/u/0/#inbox'),
+      Uri.parse(widget.url),
     );
     flickManager = FlickManager(videoPlayerController: _controller);
   }

@@ -1,5 +1,5 @@
+import 'package:crypto_education/views/base/custom_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto_education/utils/app_colors.dart';
 
 class PullToRefresh extends StatefulWidget {
   final Widget child;
@@ -68,24 +68,7 @@ class PullToRefreshState extends State<PullToRefresh> {
             child: Opacity(
               opacity: getOpacity,
               child: SafeArea(
-                child: Container(
-                  padding: EdgeInsets.all(4),
-                  height: iconSize,
-                  width: iconSize,
-                  decoration: BoxDecoration(
-                    color: AppColors.cyan[400],
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 2),
-                        color: AppColors.cyan[800]!.withAlpha(100),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
+                child: CustomLoading(),
               ),
             ),
           ),

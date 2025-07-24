@@ -1,8 +1,8 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, prefer_collection_literals
-
 import 'dart:convert';
 import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/controllers/video_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +22,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
   Get.put(AuthController());
   Get.put(UserController());
+  Get.put(VideoController());
 
   //Retrieving localized data
   Map<String, Map<String, String>> _languages = Map();

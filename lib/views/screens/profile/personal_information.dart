@@ -26,49 +26,51 @@ class _PersonalInformationState extends State<PersonalInformation> {
       appBar: CustomAppBar(title: "Personal Information"),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 24),
-            Align(
-              child: ProfilePicture(
-                image: ApiService.getImgUrl(user.userInfo.value?.image),
+        child: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 24),
+              Align(
+                child: ProfilePicture(
+                  image: ApiService.getImgUrl(user.userInfo.value?.image),
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            Text(
-              "Name",
-              style: AppTexts.tlgs.copyWith(color: AppColors.cyan.shade300),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              user.userInfo.value?.fullName ?? "Null",
-              style: AppTexts.tmdm.copyWith(color: AppColors.gray.shade200),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              "Email",
-              style: AppTexts.tlgs.copyWith(color: AppColors.cyan.shade300),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              user.userInfo.value?.email ?? "Null",
-              style: AppTexts.tmdm.copyWith(color: AppColors.gray.shade200),
-            ),
-            const SizedBox(height: 32),
-            CustomButton(
-              text: "Edit Profile",
-              leading: AppIcons.pen,
-              isSecondary: true,
-              onTap: () {
-                Get.to(
-                  () => EditPersonalInformation(),
-                  transition: Transition.noTransition,
-                  duration: Duration(seconds: 0),
-                );
-              },
-            ),
-          ],
+              const SizedBox(height: 32),
+              Text(
+                "Name",
+                style: AppTexts.tlgs.copyWith(color: AppColors.cyan.shade300),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                user.userInfo.value?.fullName ?? "Null",
+                style: AppTexts.tmdm.copyWith(color: AppColors.gray.shade200),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                "Email",
+                style: AppTexts.tlgs.copyWith(color: AppColors.cyan.shade300),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                user.userInfo.value?.email ?? "Null",
+                style: AppTexts.tmdm.copyWith(color: AppColors.gray.shade200),
+              ),
+              const SizedBox(height: 32),
+              CustomButton(
+                text: "Edit Profile",
+                leading: AppIcons.pen,
+                isSecondary: true,
+                onTap: () {
+                  Get.to(
+                    () => EditPersonalInformation(),
+                    transition: Transition.noTransition,
+                    duration: Duration(seconds: 0),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

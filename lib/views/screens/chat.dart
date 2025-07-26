@@ -4,6 +4,7 @@ import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/profile_picture.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Chat extends StatefulWidget {
   final bool expanded;
@@ -108,7 +109,7 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  Padding newChat() {
+  Widget newChat() {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -116,8 +117,8 @@ class _ChatState extends State<Chat> {
         children: [
           Text(
             widget.expanded
-                ? "Ask me anything about your course, crypto terms, or how Web3 works"
-                : "Ask me anything about the video",
+                ? "ask_me_anything".tr
+                : "ask_video".tr,
             textAlign: TextAlign.center,
             style: AppTexts.tlgr.copyWith(color: AppColors.cyan.shade400),
           ),
@@ -125,11 +126,11 @@ class _ChatState extends State<Chat> {
           if (widget.expanded)
             Column(
               children: [
-                suggesions("What is a wallet?"),
+                suggesions("what_is_wallet".tr),
                 const SizedBox(height: 12),
-                suggesions("How to invest in crypto safely?"),
+                suggesions("how_to_invest_in_crypto".tr),
                 const SizedBox(height: 12),
-                suggesions("Is crypto legal in USA?"),
+                suggesions("is_crypto_legal_in_usa".tr),
                 const SizedBox(height: 12),
               ],
             ),
@@ -162,7 +163,7 @@ class _ChatState extends State<Chat> {
                   decoration: InputDecoration(
                     isDense: true,
                     border: InputBorder.none,
-                    hintText: "Got any questions? Ask me...",
+                    hintText: "ask_questions".tr,
                     hintStyle: AppTexts.txsr.copyWith(
                       color: AppColors.gray.shade100,
                     ),
@@ -209,7 +210,7 @@ class _ChatState extends State<Chat> {
       ),
       child: Text(
         text,
-        style: AppTexts.txsr.copyWith(color: AppColors.gray.shade300),
+        style: AppTexts.txss.copyWith(color: AppColors.gray.shade300),
       ),
     );
   }

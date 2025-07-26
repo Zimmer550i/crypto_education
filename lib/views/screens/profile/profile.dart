@@ -14,35 +14,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  Profile({super.key});
 
-  final List<ClickableButtonModel> options = const [
+  final List<ClickableButtonModel> options =  [
     ClickableButtonModel(
       icon: AppIcons.userCrown,
-      title: "Personal Information",
+      title: "personal_information".tr,
       route: PersonalInformation(),
     ),
     ClickableButtonModel(
       icon: AppIcons.crown,
-      title: "Subscription Plan",
+      title: "subscription_plan".tr,
       route: SubscriptionPlan(),
     ),
     ClickableButtonModel(
       icon: AppIcons.info,
-      title: "Terms of Services",
-      route: Info(title: "Terms of Service", data: "terms_conditions"),
+      title: "terms_of_service".tr,
+      route: Info(title: "terms_of_service".tr, data: "terms_conditions"),
     ),
     ClickableButtonModel(
       icon: AppIcons.privacy,
-      title: "Privacy Policy",
-      route: Info(title: "Privacy Policy", data: "privacy_policies"),
+      title: "privacy_policy".tr,
+      route: Info(title: "privacy_policy".tr, data: "privacy_policies"),
     ),
     ClickableButtonModel(
       icon: AppIcons.about,
-      title: "About Us",
-      route: Info(title: "About Us", data: "about_us"),
+      title: "about_us".tr,
+      route: Info(title: "about_us".tr, data: "about_us"),
     ),
-    ClickableButtonModel(icon: AppIcons.logout, title: "Logout"),
+    ClickableButtonModel(icon: AppIcons.logout, title: "logout".tr),
   ];
 
   @override
@@ -63,7 +63,7 @@ class Profile extends StatelessWidget {
                       if (e.route != null) {
                         Get.to(() => e.route!);
                       }
-                      if (e.title == "Logout") {
+                      if (e.title == "logout".tr) {
                         logoutSheet(context);
                       }
                     },
@@ -124,12 +124,12 @@ class Profile extends StatelessWidget {
               children: [
                 const SizedBox(height: 75),
                 Text(
-                  "Are you sure you want to",
+                  "are_you_sure_logout".tr,
                   style: AppTexts.tmdr.copyWith(color: AppColors.gray),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "Logout?",
+                  "logout_question".tr,
                   style: AppTexts.txls.copyWith(color: AppColors.cyan),
                 ),
                 const SizedBox(height: 20),
@@ -138,7 +138,7 @@ class Profile extends StatelessWidget {
                     const SizedBox(width: 40),
                     Expanded(
                       child: CustomButton(
-                        text: "Logout",
+                        text: "logout".tr,
                         isSecondary: true,
                         onTap: () async {
                           Get.find<AuthController>().logout();
@@ -148,7 +148,7 @@ class Profile extends StatelessWidget {
                     const SizedBox(width: 18),
                     Expanded(
                       child: CustomButton(
-                        text: "Cancel",
+                        text: "cancel".tr,
                         onTap: () {
                           Get.back();
                         },

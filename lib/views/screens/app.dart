@@ -12,8 +12,7 @@ import 'package:crypto_education/views/screens/notifications.dart';
 import 'package:crypto_education/views/screens/profile/profile.dart';
 import 'package:crypto_education/views/screens/videos.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -71,8 +70,8 @@ class _AppState extends State<App> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          "Hi, ${user.userInfo.value?.fullName}",
-                          style: AppTexts.tlgm.copyWith(
+                          "${"hi_user".tr} ${user.userInfo.value?.fullName}",
+                          style: AppTexts.tmdr.copyWith(
                             color: AppColors.gray.shade100,
                           ),
                         ),
@@ -126,7 +125,7 @@ class _AppState extends State<App> {
                             showingHistory = false;
                           });
                         },
-                        child: options(AppIcons.arrowLeft, "History"),
+                        child: options(AppIcons.arrowLeft, "history".tr),
                       ),
                       Container(
                         width: double.infinity,
@@ -153,7 +152,7 @@ class _AppState extends State<App> {
                                       children: [
                                         Text(
                                           "Chat Name",
-                                          style: AppTexts.tmdr.copyWith(
+                                          style: AppTexts.tsmr.copyWith(
                                             color: Colors.white,
                                           ),
                                         ),
@@ -175,13 +174,13 @@ class _AppState extends State<App> {
                                                 PopupMenuItem(
                                                   child: options(
                                                     AppIcons.rename,
-                                                    "Rename",
+                                                    "rename".tr,
                                                   ),
                                                 ),
                                                 PopupMenuItem(
                                                   child: options(
                                                     AppIcons.delete,
-                                                    "Delete",
+                                                    "delete".tr,
                                                   ),
                                                 ),
                                               ];
@@ -201,23 +200,23 @@ class _AppState extends State<App> {
                 : Column(
                     spacing: 24,
                     children: [
-                      options(AppIcons.edit, "New Chat"),
+                      options(AppIcons.edit, "new_chat".tr),
                       InkWell(
                         onTap: () {
                           setState(() {
                             showingHistory = true;
                           });
                         },
-                        child: options(AppIcons.history, "History"),
+                        child: options(AppIcons.history, "history".tr),
                       ),
                       Container(
                         width: double.infinity,
                         height: 1,
                         color: AppColors.gray.shade100,
                       ),
-                      options(AppIcons.terms, "Terms"),
-                      options(AppIcons.privacy2, "Privacy"),
-                      options(AppIcons.settings, "Settings"),
+                      options(AppIcons.terms, "terms".tr),
+                      options(AppIcons.privacy2, "privacy".tr),
+                      options(AppIcons.settings, "settings".tr),
                     ],
                   ),
           ),
@@ -252,7 +251,7 @@ class _AppState extends State<App> {
         const SizedBox(width: 16),
         Text(
           text,
-          style: AppTexts.tmdr.copyWith(color: AppColors.gray.shade100),
+          style: AppTexts.tsmr.copyWith(color: AppColors.gray.shade100),
         ),
       ],
     );

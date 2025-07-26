@@ -23,7 +23,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Personal Information"),
+      appBar: CustomAppBar(title: "personal_information".tr),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
         child: Obx(
@@ -38,7 +38,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
               ),
               const SizedBox(height: 32),
               Text(
-                "Name",
+                "name".tr,
                 style: AppTexts.tlgs.copyWith(color: AppColors.cyan.shade300),
               ),
               const SizedBox(height: 8),
@@ -48,7 +48,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
               ),
               const SizedBox(height: 16),
               Text(
-                "Email",
+                "email".tr,
                 style: AppTexts.tlgs.copyWith(color: AppColors.cyan.shade300),
               ),
               const SizedBox(height: 8),
@@ -58,7 +58,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
               ),
               const SizedBox(height: 32),
               CustomButton(
-                text: "Edit Profile",
+                text: "edit_profile".tr,
                 leading: AppIcons.pen,
                 isSecondary: true,
                 onTap: () {

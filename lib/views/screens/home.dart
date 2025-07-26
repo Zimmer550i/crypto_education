@@ -25,13 +25,13 @@ class _HomeState extends State<Home> {
       if (video.topics.isEmpty) {
         video.getTopics().then((message) {
           if (message != "success") {
-            Get.snackbar("Error Occured", message);
+            Get.snackbar("error_occurred".tr, message);
           }
         });
       }
       video.getLiveClass().then((message) {
         if (message != "success") {
-          Get.snackbar("Error Occured", message);
+          Get.snackbar("error_occurred".tr, message);
         }
       });
     });
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: Text(
-                    "Live Class",
+                    "live_class".tr,
                     style: AppTexts.tmdm.copyWith(
                       color: AppColors.gray.shade50,
                     ),
@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Center(
                       child: Text(
-                        "No Live Classes at this moment",
+                        "no_live_classes".tr,
                         style: AppTexts.txsr,
                       ),
                     ),
@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: Text(
-                    "Featured Topics",
+                    "featured_topics".tr,
                     style: AppTexts.tmdm.copyWith(
                       color: AppColors.gray.shade50,
                     ),

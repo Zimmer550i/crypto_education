@@ -20,6 +20,10 @@ class _VideoWidgetState extends State<VideoWidget> {
   late FlickManager flickManager;
   late VideoPlayerController _controller;
 
+  /*
+  Bug: When the video pauses when load buffers there is no loading animation.
+  */
+
   @override
   void initState() {
     super.initState();

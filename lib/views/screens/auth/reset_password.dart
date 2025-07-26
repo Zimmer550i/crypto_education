@@ -26,16 +26,16 @@ class _ResetPasswordState extends State<ResetPassword> {
 
     if (message == "success") {
       Get.offAll(() => Signin());
-      Get.snackbar("Password reset successfully", "Please sign in again");
+      Get.snackbar("password_reset_success".tr, "sign_in_again".tr);
     } else {
-      Get.snackbar("Error Occured", message);
+      Get.snackbar("error_occurred".tr, message);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Reset Password"),
+      appBar: CustomAppBar(title: "reset_password".tr),
       body: Align(
         alignment: Alignment.center,
         child: SingleChildScrollView(
@@ -44,29 +44,29 @@ class _ResetPasswordState extends State<ResetPassword> {
             child: Column(
               children: [
                 Text(
-                  "Reset Password",
+                  "reset_password".tr,
                   style: AppTexts.dxss.copyWith(color: AppColors.cyan.shade300),
                 ),
                 const SizedBox(height: 32),
                 CustomTextField(
                   controller: passCtrl,
-                  title: "Password",
+                  title: "password".tr,
                   leading: AppIcons.lock,
                   isPassword: true,
-                  hintText: "Enter your password",
+                  hintText: "enter_password".tr,
                 ),
                 const SizedBox(height: 24),
                 CustomTextField(
                   controller: conPassCtrl,
-                  title: "Confirm Password",
+                  title: "confirm_password".tr,
                   leading: AppIcons.lock,
                   isPassword: true,
-                  hintText: "Re-Enter your password",
+                  hintText: "re_enter_password".tr,
                 ),
                 const SizedBox(height: 40),
                 Obx(
                   () => CustomButton(
-                    text: "Verify",
+                    text: "verify".tr,
                     isLoading: auth.isLoading.value,
                     onTap: callBack,
                   ),

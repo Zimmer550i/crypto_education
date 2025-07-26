@@ -31,7 +31,7 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Notifications"),
+      appBar: CustomAppBar(title: "notifications".tr),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Obx(
@@ -77,7 +77,6 @@ class _NotificationsState extends State<Notifications> {
                                         : AppColors.gray.shade800,
                                   ),
                                 ),
-
                                 Row(
                                   spacing: 4,
                                   children: [

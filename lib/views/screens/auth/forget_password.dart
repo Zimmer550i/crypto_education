@@ -40,18 +40,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     if (message == "success") {
       Get.to(() => Verification(isPasswordReset: true, email: emailCtrl.text));
       Get.snackbar(
-        "OTP sent successfully",
-        "Please enter the OTP sent to ${widget.email}",
+        "otp_sent_success".tr,
+        "${"enter_otp".tr} ${widget.email}",
       );
     } else {
-      Get.snackbar("Error Occured", message);
+      Get.snackbar("error_occurred".tr, message);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Forgot Password"),
+      appBar: CustomAppBar(title: "forgot_password".tr),
       body: Align(
         alignment: Alignment.center,
         child: SingleChildScrollView(
@@ -61,13 +61,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               children: [
                 CustomTextField(
                   controller: emailCtrl,
-                  title: "Email",
+                  title: "email".tr,
                   leading: AppIcons.mail,
-                  hintText: "Enter your email",
+                  hintText: "enter_email".tr,
                 ),
                 const SizedBox(height: 24),
                 CustomButton(
-                  text: "Send OTP",
+                  text: "send_otp".tr,
                   isLoading: isLoading,
                   onTap: callBack,
                 ),

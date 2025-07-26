@@ -22,7 +22,7 @@ class _VideosState extends State<Videos> {
       if (video.topics.isEmpty) {
         video.getTopics().then((message) {
           if (message != "success") {
-            Get.snackbar("Error Occured", message);
+            Get.snackbar("error_occurred".tr, message);
           }
         });
       }
@@ -39,7 +39,7 @@ class _VideosState extends State<Videos> {
             onRefresh: () async {
               video.getTopics().then((message) {
                 if (message != "success") {
-                  Get.snackbar("Error Occured", message);
+                  Get.snackbar("error_occurred".tr, message);
                 }
               });
             },

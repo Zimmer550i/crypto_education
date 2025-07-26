@@ -28,7 +28,7 @@ class _SigninState extends State<Signin> {
     if (message == "success") {
       Get.offAll(() => App());
     } else {
-      Get.snackbar("Error Occured", message);
+      Get.snackbar("error_occurred".tr, message);
     }
   }
 
@@ -44,21 +44,21 @@ class _SigninState extends State<Signin> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Sign In Your Account", style: AppTexts.dlgm),
+                  Text("sign_in_account".tr, style: AppTexts.dlgm),
                   const SizedBox(height: 24),
                   CustomTextField(
                     controller: emailCtrl,
-                    title: "Email",
+                    title: "email".tr,
                     leading: AppIcons.mail,
-                    hintText: "Enter your email",
+                    hintText: "enter_email".tr,
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
                     controller: passCtrl,
-                    title: "Password",
+                    title: "password".tr,
                     isPassword: true,
                     leading: AppIcons.lock,
-                    hintText: "Enter your password",
+                    hintText: "enter_password".tr,
                   ),
                   const SizedBox(height: 8),
                   Align(
@@ -69,7 +69,7 @@ class _SigninState extends State<Signin> {
                         Get.to(() => ForgetPassword(email: emailCtrl.text,));
                       },
                       child: Text(
-                        "Forgot Password?",
+                        "forgot_password_question".tr,
                         style: AppTexts.txss.copyWith(
                           color: AppColors.cyan.shade300,
                         ),
@@ -79,7 +79,7 @@ class _SigninState extends State<Signin> {
                   const SizedBox(height: 24),
                   Obx(
                     () => CustomButton(
-                      text: "Sign In",
+                      text: "sign_in".tr,
                       isLoading: auth.isLoading.value,
                       onTap: signInCallback,
                     ),
@@ -97,7 +97,7 @@ class _SigninState extends State<Signin> {
                         ),
                       ),
                       Text(
-                        "Or",
+                        "or".tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -116,7 +116,7 @@ class _SigninState extends State<Signin> {
                   ),
                   const SizedBox(height: 24),
                   CustomButton(
-                    text: "Login With Google",
+                    text: "login_with_google".tr,
                     isSecondary: true,
                     leading: AppIcons.google,
                     coloredIcon: true,
@@ -126,7 +126,7 @@ class _SigninState extends State<Signin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account?",
+                        "dont_have_account".tr,
                         style: AppTexts.txsr.copyWith(
                           color: AppColors.gray.shade50,
                         ),
@@ -137,7 +137,7 @@ class _SigninState extends State<Signin> {
                           Get.to(() => Signup());
                         },
                         child: Text(
-                          " Sign Up ",
+                          "sign_up".tr,
                           style: AppTexts.txss.copyWith(
                             color: AppColors.cyan.shade300,
                           ),

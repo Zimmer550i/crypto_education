@@ -24,7 +24,7 @@ class _EditPersonalInformationState extends State<EditPersonalInformation> {
   @override
   void initState() {
     super.initState();
-    nameCtrl.text = user.userInfo.value?.fullName ?? "Your Name Here";
+    nameCtrl.text = user.userInfo.value?.fullName ?? "your_name_here".tr;
   }
 
   void onCallBack() async {
@@ -37,16 +37,16 @@ class _EditPersonalInformationState extends State<EditPersonalInformation> {
 
     if (message == "success") {
       Get.back();
-      Get.snackbar("Successful", "Profile information successfully updated");
+      Get.snackbar("successful".tr, "profile_info_updated".tr);
     } else {
-      Get.snackbar("Error Occured", message);
+      Get.snackbar("error_occurred".tr, message);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Edit Personal Information"),
+      appBar: CustomAppBar(title: "edit_personal_information".tr),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
         child: Column(
@@ -66,11 +66,11 @@ class _EditPersonalInformationState extends State<EditPersonalInformation> {
               ),
             ),
             const SizedBox(height: 32),
-            CustomTextField(controller: nameCtrl, title: "Name"),
+            CustomTextField(controller: nameCtrl, title: "name".tr),
             const SizedBox(height: 32),
             Obx(
               () => CustomButton(
-                text: "Save Changes",
+                text: "save_changes".tr,
                 isLoading: user.isLoading.value,
                 onTap: () {
                   onCallBack();

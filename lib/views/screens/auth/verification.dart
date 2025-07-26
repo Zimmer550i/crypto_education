@@ -35,9 +35,9 @@ class _VerificationState extends State<Verification> {
       } else {
         Get.off(() => App());
       }
-      Get.snackbar("Account verified successfully", "Welcome to Crypto Education");
+      Get.snackbar("account_verified".tr, "welcome_crypto_education".tr);
     } else {
-      Get.snackbar("Error Occured", message);
+      Get.snackbar("error_occurred".tr, message);
     }
   }
 
@@ -46,18 +46,18 @@ class _VerificationState extends State<Verification> {
 
     if (message == "success") {
       Get.snackbar(
-        "OTP sent successfully",
-        "Please enter the OTP sent to ${widget.email}",
+        "otp_sent_success".tr,
+        "${"enter_otp".tr} ${widget.email}",
       );
     } else {
-      Get.snackbar("Error Occured", message);
+      Get.snackbar("error_occurred".tr, message);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "OTP Verification"),
+      appBar: CustomAppBar(title: "otp_verification".tr),
       body: Align(
         alignment: Alignment.center,
         child: SingleChildScrollView(
@@ -66,7 +66,7 @@ class _VerificationState extends State<Verification> {
             child: Column(
               children: [
                 Text(
-                  "Verify Email",
+                  "verify_email".tr,
                   style: AppTexts.dxss.copyWith(color: AppColors.cyan.shade300),
                 ),
                 const SizedBox(height: 32),
@@ -91,7 +91,7 @@ class _VerificationState extends State<Verification> {
                 const SizedBox(height: 24),
                 Obx(
                   () => CustomButton(
-                    text: "Verify",
+                    text: "verify".tr,
                     isLoading: auth.isLoading.value,
                     onTap: callBack,
                   ),
@@ -101,7 +101,7 @@ class _VerificationState extends State<Verification> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don’t get the code?",
+                      "dont_get_code".tr,
                       style: AppTexts.txsr.copyWith(
                         color: AppColors.gray.shade50,
                       ),
@@ -110,7 +110,7 @@ class _VerificationState extends State<Verification> {
                       behavior: HitTestBehavior.translucent,
                       onTap: resendOtp,
                       child: Text(
-                        " Resend ",
+                        "resend".tr,
                         style: AppTexts.txss.copyWith(
                           color: AppColors.cyan.shade300,
                         ),

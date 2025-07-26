@@ -31,7 +31,7 @@ class Onboard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Empowering the world through crypto knowledge",
+                        "empowering_world".tr,
                         textAlign: TextAlign.center,
                         style: AppTexts.dxsm.copyWith(color: Colors.white),
                       ),
@@ -40,7 +40,7 @@ class Onboard extends StatelessWidget {
                         onTap: () {
                           Get.off(() => Signin());
                         },
-                        text: "Get Start",
+                        text: "get_start".tr,
                         trailing: AppIcons.arrowRight,
                       ),
                     ],

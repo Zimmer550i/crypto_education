@@ -22,7 +22,7 @@ class _InfoState extends State<Info> {
     super.initState();
     user.getSettingsInfo(widget.data).then((val) {
       if (val != "success") {
-        Get.snackbar("Error Occured", val);
+        Get.snackbar("error_occurred".tr, val);
       }
     });
   }
@@ -45,7 +45,7 @@ class _InfoState extends State<Info> {
                       : Html(
                           data:
                               user.settingsInfo[widget.data] ??
-                              "<p style=\"color: red; text-align: center;\">Error Fetching Data!</p>",
+                              "<p style=\"color: red; text-align: center;\">${"error_fetching_data".tr}</p>",
                         ),
                 ),
               ],

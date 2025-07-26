@@ -34,11 +34,11 @@ class _SignupState extends State<Signup> {
     if (message == "success") {
       Get.to(() => Verification(email: emailCtrl.text));
       Get.snackbar(
-        "Account created successfully",
-        "Please check your email to get verification code.",
+        "account_created_successfully".tr,
+        "please_check_email_for_verification".tr,
       );
     } else {
-      Get.snackbar("Error Occured", message);
+      Get.snackbar("error_occurred".tr, message);
     }
   }
 
@@ -54,41 +54,41 @@ class _SignupState extends State<Signup> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Set Up Your Account", style: AppTexts.dlgm),
+                  Text("set_up_account".tr, style: AppTexts.dlgm),
                   const SizedBox(height: 24),
                   CustomTextField(
                     controller: nameCtrl,
-                    title: "Name",
+                    title: "name".tr,
                     leading: AppIcons.user,
-                    hintText: "Enter your name",
+                    hintText: "enter_name".tr,
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
                     controller: emailCtrl,
-                    title: "Email",
+                    title: "email".tr,
                     leading: AppIcons.mail,
-                    hintText: "Enter your email",
+                    hintText: "enter_email".tr,
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
                     controller: passCtrl,
-                    title: "Password",
+                    title: "password".tr,
                     isPassword: true,
                     leading: AppIcons.lock,
-                    hintText: "Enter your password",
+                    hintText: "enter_password".tr,
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
                     controller: conPassCtrl,
-                    title: "Confirm Password",
+                    title: "confirm_password".tr,
                     leading: AppIcons.lock,
                     isPassword: true,
-                    hintText: "Re-Enter your password",
+                    hintText: "re_enter_password".tr,
                   ),
                   const SizedBox(height: 24),
                   Obx(
                     () => CustomButton(
-                      text: "Sign Up",
+                      text: "sign_up".tr,
                       isLoading: auth.isLoading.value,
                       onTap: signUpCallback,
                     ),
@@ -98,7 +98,7 @@ class _SignupState extends State<Signup> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Already have an account?",
+                        "already_have_account".tr,
                         style: AppTexts.txsr.copyWith(
                           color: AppColors.gray.shade50,
                         ),
@@ -109,7 +109,7 @@ class _SignupState extends State<Signup> {
                           Get.off(() => Signin());
                         },
                         child: Text(
-                          " Sign In ",
+                          "sign_in".tr,
                           style: AppTexts.txss.copyWith(
                             color: AppColors.cyan.shade300,
                           ),

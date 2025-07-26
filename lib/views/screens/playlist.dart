@@ -29,7 +29,7 @@ class _PlaylistState extends State<Playlist> {
         message,
       ) {
         if (message != "success") {
-          Get.snackbar("Error Occured", message);
+          Get.snackbar("error_occurred".tr, message);
         }
       });
     });
@@ -80,7 +80,7 @@ class _PlaylistState extends State<Playlist> {
                                     children: [
                                       Text(i.title, style: AppTexts.tmdm),
                                       Text(
-                                        "${i.durationSeconds ~/ 60}min",
+                                        "${i.durationSeconds ~/ 60}${"minute".tr}",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 10,

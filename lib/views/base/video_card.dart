@@ -29,15 +29,24 @@ class VideoCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(8),
-              child: CachedNetworkImage(
-                imageUrl:
-                    topic.thumbnail ?? "https://thispersondoesnotexist.com",
-                fadeInDuration: Duration(),
-                fadeOutDuration: Duration(),
-                height: 68,
-                width: 104,
-                fit: BoxFit.cover,
-              ),
+              child: topic.thumbnail == null
+                  ? Container(
+                      height: 68,
+                      width: 104,
+                      color: Colors.white.withValues(alpha: 0.06),
+                      child: Icon(
+                        Icons.video_collection_outlined,
+                        color: Colors.grey,
+                      ),
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: topic.thumbnail!,
+                      fadeInDuration: Duration(),
+                      fadeOutDuration: Duration(),
+                      height: 68,
+                      width: 104,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(width: 16),
             Expanded(

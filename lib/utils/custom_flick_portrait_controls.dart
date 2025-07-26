@@ -7,11 +7,13 @@ import 'package:get/get.dart';
 
 /// Default portrait controls.
 class CustomFlickPortraitControls extends StatelessWidget {
+  final bool hasBackButton;
   const CustomFlickPortraitControls({
     super.key,
     this.iconSize = 20,
     this.fontSize = 12,
     this.progressBarSettings,
+    this.hasBackButton = true,
   });
 
   /// Icon size.
@@ -39,9 +41,9 @@ class CustomFlickPortraitControls extends StatelessWidget {
                   child: FlickAutoHideChild(
                     showIfVideoNotInitialized: false,
                     child: FlickPlayToggle(
-                      size: 30,
+                      size: iconSize*1.5,
                       color: AppColors.gray.shade50,
-                      padding: EdgeInsets.all(12),
+                      padding: EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         color: Color(0xff1b1b1b).withAlpha(128),
                         borderRadius: BorderRadius.circular(40),
@@ -53,26 +55,27 @@ class CustomFlickPortraitControls extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 12,
-          left: 20,
-          child: FlickAutoHideChild(
-            child: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Container(
-                height: 32,
-                width: 32,
-                decoration: BoxDecoration(
-                  color: Color(0xff1b1b1b).withAlpha(128),
-                  shape: BoxShape.circle,
+        if (hasBackButton)
+          Positioned(
+            top: 12,
+            left: 20,
+            child: FlickAutoHideChild(
+              child: GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  height: 32,
+                  width: 32,
+                  decoration: BoxDecoration(
+                    color: Color(0xff1b1b1b).withAlpha(128),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(child: CustomSvg(asset: AppIcons.arrowLeft)),
                 ),
-                child: Center(child: CustomSvg(asset: AppIcons.arrowLeft)),
               ),
             ),
           ),
-        ),
         Positioned.fill(
           child: FlickAutoHideChild(
             child: Align(

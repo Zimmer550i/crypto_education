@@ -19,6 +19,16 @@ class _NotificationsState extends State<Notifications> {
   final user = Get.find<UserController>();
 
   @override
+  void initState() {
+    super.initState();
+    user.readNotifications().then((val) {
+      if (val != "success") {
+        debugPrint(val);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: "Notifications"),
@@ -31,49 +41,67 @@ class _NotificationsState extends State<Notifications> {
                 for (var i in user.notifications)
                   Padding(
                     padding: EdgeInsetsGeometry.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
+                      horizontal: 16,
+                      vertical: 6,
                     ),
-                    child: Row(
-                      spacing: 12,
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: AppColors.gray.shade800,
-                            shape: BoxShape.circle,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: i.isRead ? Colors.transparent : AppColors.cyan,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+                      child: Row(
+                        spacing: 12,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: AppColors.gray.shade800,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: CustomSvg(asset: AppIcons.bell),
+                            ),
                           ),
-                          child: Center(child: CustomSvg(asset: AppIcons.bell)),
-                        ),
-                        Expanded(
-                          child: Column(
-                            spacing: 4,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                i.message,
-                                style: AppTexts.tsmm.copyWith(
-                                  color: AppColors.gray.shade200,
-                                ),
-                              ),
-
-                              Row(
-                                spacing: 4,
-                                children: [
-                                  CustomSvg(asset: AppIcons.clock),
-                                  Text(
-                                    Formatter.dateFormatter(i.createdAt),
-                                    style: AppTexts.txsr.copyWith(
-                                      color: AppColors.gray.shade400,
-                                    ),
+                          Expanded(
+                            child: Column(
+                              spacing: 4,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  i.message,
+                                  style: AppTexts.tsmm.copyWith(
+                                    color: i.isRead
+                                        ? AppColors.gray.shade200
+                                        : AppColors.gray.shade800,
                                   ),
-                                ],
-                              ),
-                            ],
+                                ),
+
+                                Row(
+                                  spacing: 4,
+                                  children: [
+                                    CustomSvg(
+                                      asset: AppIcons.clock,
+                                      color: i.isRead
+                                          ? AppColors.gray.shade400
+                                          : AppColors.gray.shade700,
+                                    ),
+                                    Text(
+                                      Formatter.dateFormatter(i.createdAt),
+                                      style: AppTexts.txsr.copyWith(
+                                        color: i.isRead
+                                            ? AppColors.gray.shade400
+                                            : AppColors.gray.shade700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
               ],

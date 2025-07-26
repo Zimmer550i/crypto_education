@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:crypto_education/utils/custom_image_picker.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfilePicture extends StatelessWidget {
   final double size;
@@ -55,16 +56,15 @@ class ProfilePicture extends StatelessWidget {
                 : image != null
                 ? CachedNetworkImage(
                     imageUrl: image!,
-                    progressIndicatorBuilder: (context, url, progress) {
-                      return SizedBox(
-                        width: size,
-                        height: size,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            value: progress.progress,
-                            strokeWidth: 2,
-                            color: AppColors.cyan[400],
-                          ),
+                    placeholder: (context, url) {
+                      return Shimmer.fromColors(
+                        baseColor: AppColors.cyan,
+                        highlightColor: AppColors.cyan.shade200,
+                        period: Duration(milliseconds: 800),
+                        child: Container(
+                          height: size,
+                          width: size,
+                          color: Colors.white,
                         ),
                       );
                     },
@@ -108,9 +108,11 @@ class ProfilePicture extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.black.withAlpha((30 * 2.55).toInt()),
-                  shape: BoxShape.circle
+                  shape: BoxShape.circle,
                 ),
-                child: Center(child: CustomSvg(asset: AppIcons.camera, size: 32)),
+                child: Center(
+                  child: CustomSvg(asset: AppIcons.camera, size: 32),
+                ),
               ),
             ),
         ],

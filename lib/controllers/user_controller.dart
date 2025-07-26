@@ -171,7 +171,7 @@ class UserController extends GetxController {
   Future<String> readNotifications({String? id}) async {
     try {
       final response = await api.get(
-        id == null
+        id != null
             ? "/api/v1/notifications/read/$id/"
             : "/api/v1/notifications/read_all/",
         authReq: true,
@@ -181,9 +181,18 @@ class UserController extends GetxController {
       if (response.statusCode == 200) {
         if (id == null) {
           unreadNotifications.value = 0;
+          for (var i in notifications) {
+            i.isRead = true;
+          }
         } else {
           unreadNotifications.value = max(unreadNotifications.value - 1, 0);
+          for (var i in notifications) {
+            if (i.id.toString() == id) {
+              i.isRead = false;
+            }
+          }
         }
+        update();
 
         return "success";
       } else {

@@ -1,20 +1,29 @@
+import 'package:crypto_education/models/live_class.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LiveCard extends StatelessWidget {
-  const LiveCard({
-    super.key,
-  });
+  final LiveClass liveClass;
+  const LiveCard({super.key, required this.liveClass});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        
+      onTap: () async {
+        var url = Uri.parse(liveClass.link);
+
+        if (await canLaunchUrl(url)) {
+          launchUrl(url);
+        } else {
+          Get.snackbar("Error Occured", "Can't launch URL");
+        }
       },
+      borderRadius: BorderRadius.circular(12),
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(12),
         child: Container(
@@ -23,10 +32,7 @@ class LiveCard extends StatelessWidget {
             children: [
               AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Image.asset(
-                  "assets/images/live.jpg",
-                  fit: BoxFit.cover,
-                ),
+                child: Image.asset("assets/images/live.jpg", fit: BoxFit.cover),
               ),
               Padding(
                 padding: EdgeInsetsGeometry.symmetric(
@@ -36,10 +42,7 @@ class LiveCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(
-                        "Facts and Background: What are virtual currencies ?",
-                        style: AppTexts.tmds,
-                      ),
+                      child: Text(liveClass.title, style: AppTexts.tmds),
                     ),
                     CustomSvg(
                       asset: AppIcons.link,

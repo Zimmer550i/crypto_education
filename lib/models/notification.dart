@@ -3,7 +3,7 @@ class Notification {
   final int? video;
   final String? videoTitle;
   final String message;
-  final bool isRead;
+  bool isRead;
   final DateTime createdAt;
 
   Notification({

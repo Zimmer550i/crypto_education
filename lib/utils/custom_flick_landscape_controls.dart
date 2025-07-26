@@ -14,6 +14,7 @@ class CustomFlickLandscapeControls extends StatelessWidget {
       progressBarSettings: FlickProgressBarSettings(
         height: 5,
       ),
+      hasBackButton: false,
     );
   }
 }

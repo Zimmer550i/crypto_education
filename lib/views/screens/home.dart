@@ -59,10 +59,9 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 if (video.liveClass.value != null)
-                  for (int i = 0; i < 1; i++)
                     Padding(
                       padding: EdgeInsets.only(bottom: 12.0),
-                      child: LiveCard(),
+                      child: LiveCard(liveClass: video.liveClass.value!),
                     ),
                 if (video.liveClass.value == null)
                   Padding(

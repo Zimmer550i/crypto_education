@@ -57,9 +57,9 @@ class VideoController extends GetxController {
         final data = body['data'];
 
         if ((data as List).isNotEmpty) {
-          liveClass = Rxn(LiveClass.fromJson(data.first));
+          liveClass.value = LiveClass.fromJson(data.first);
         } else {
-          liveClass = Rxn(null);
+          liveClass.value = null;
         }
 
         return "success";

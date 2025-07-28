@@ -66,7 +66,7 @@ class _SigninState extends State<Signin> {
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        Get.to(() => ForgetPassword(email: emailCtrl.text,));
+                        Get.to(() => ForgetPassword(email: emailCtrl.text));
                       },
                       child: Text(
                         "forgot_password_question".tr,
@@ -116,7 +116,9 @@ class _SigninState extends State<Signin> {
                   ),
                   const SizedBox(height: 24),
                   CustomButton(
-                    onTap: () => auth.googleLogin(),
+                    onTap: () => auth.googleLogin().then((message) {
+                      Get.snackbar("error_occurred".tr, message);
+                    }),
                     text: "login_with_google".tr,
                     isSecondary: true,
                     leading: AppIcons.google,

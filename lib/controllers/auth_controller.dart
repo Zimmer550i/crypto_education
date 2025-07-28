@@ -18,10 +18,11 @@ class AuthController extends GetxController {
       var signIn = GoogleSignIn();
       var signInAccount = await signIn.signIn();
       if (signInAccount != null) {
-        var auth = await signInAccount.authentication;
-        debugPrint("🟡 Google Access Token: ${auth.accessToken}");
         final response = await api.post("/api/v1/auth/google_login/", {
-          "id_token": auth.idToken,
+          "email": signInAccount.email,
+          "photoUrl": signInAccount.photoUrl,
+          "name": signInAccount.displayName,
+          "id": signInAccount.id,
         });
         var body = jsonDecode(response.body);
 

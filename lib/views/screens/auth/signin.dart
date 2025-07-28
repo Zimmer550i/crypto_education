@@ -116,6 +116,7 @@ class _SigninState extends State<Signin> {
                   ),
                   const SizedBox(height: 24),
                   CustomButton(
+                    onTap: () => auth.googleLogin(),
                     text: "login_with_google".tr,
                     isSecondary: true,
                     leading: AppIcons.google,
@@ -123,6 +124,7 @@ class _SigninState extends State<Signin> {
                   ),
                   const SizedBox(height: 24),
                   Row(
+                    spacing: 4,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(

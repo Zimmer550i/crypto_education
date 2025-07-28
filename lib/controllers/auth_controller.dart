@@ -5,11 +5,40 @@ import 'package:get/get.dart';
 import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/services/shared_prefs_service.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
   RxBool isLoggedIn = RxBool(false);
   RxBool isLoading = RxBool(false);
   final api = ApiService();
+
+  Future<String> googleLogin() async {
+    isLoading(true);
+    try {
+      var signIn = GoogleSignIn();
+      var signInAccount = await signIn.signIn();
+      if (signInAccount != null) {
+        var auth = await signInAccount.authentication;
+        debugPrint("🟡 Google Access Token: ${auth.accessToken}");
+        final response = await api.post("/api/v1/auth/google_login/", {
+          "id_token": auth.idToken,
+        });
+        var body = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          return "success";
+        } else {
+          return body['message'] ?? "Connection Error";
+        }
+      } else {
+        return "Google Sign in failed.";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    } finally {
+      isLoading(false);
+    }
+  }
 
   Future<String> login(
     String email,

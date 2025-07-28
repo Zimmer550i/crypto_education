@@ -95,6 +95,7 @@ class _SignupState extends State<Signup> {
                   ),
                   const SizedBox(height: 8),
                   Row(
+                    spacing: 4,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(

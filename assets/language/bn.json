@@ -89,5 +89,14 @@
   "featured_topics": "বিশেষজ্ঞ বিষয়",
   "notifications": "বিজ্ঞপ্তি",
   "minute": "মিনিট",
-  "video_playback": "ভিডিও প্লেব্যাক"
+  "video_playback": "ভিডিও প্লেব্যাক",
+  "preferred_version": "আপনার পছন্দের সংস্করণ",
+  "continue": "চালিয়ে যান",
+  "language": "ভাষা",
+  "confirm": "অনুমোদন",
+  "verify": "যাচাই করুন",
+  "home": "হোম",
+  "videos": "ভিডিও",
+  "chat": "চ্যাট",
+  "profile": "প্রোফাইল"
 }

@@ -20,14 +20,14 @@ class AppConstants {
   );
   static List<LanguageModel> languages = [
     LanguageModel(
-      languageName: 'Bangla',
-      countryCode: 'BD',
-      languageCode: 'bn',
-    ),
-    LanguageModel(
       languageName: 'English',
       countryCode: 'US',
       languageCode: 'en',
+    ),
+    LanguageModel(
+      languageName: 'Bangla',
+      countryCode: 'BD',
+      languageCode: 'bn',
     ),
     LanguageModel(
       languageName: 'German',

@@ -89,5 +89,14 @@
   "featured_topics": "Hervorgehobene Themen",
   "notifications": "Benachrichtigungen",
   "minute": "Min",
-  "video_playback": "Video-Wiedergabe"
+  "video_playback": "Video-Wiedergabe",
+  "preferred_version": "Ihre bevorzugte Version",
+  "continue": "Fortfahren",
+  "language": "Sprache",
+  "confirm": "Bestätigen",
+  "verify": "Bestätigen",
+  "home": "Startseite",
+  "videos": "Videos",
+  "chat": "Chat",
+  "profile": "Profil"
 }

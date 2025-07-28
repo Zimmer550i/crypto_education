@@ -89,5 +89,15 @@
   "featured_topics": "Featured Topics",
   "notifications": "Notifications",
   "minute": "min",
-  "video_playback": "Video Playback"
+  "video_playback": "Video Playback",
+
+  "preferred_version": "Your Preferred version",
+  "continue": "Continue",
+  "language": "Language",
+  "confirm":"Confirm",
+  "verify": "Verify",
+  "home": "Home",
+  "videos": "Videos",
+  "chat": "Chat",
+  "profile": "Profile"
 }

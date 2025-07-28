@@ -8,42 +8,14 @@ import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/screens/profile/info.dart';
+import 'package:crypto_education/views/screens/profile/language.dart';
 import 'package:crypto_education/views/screens/profile/personal_information.dart';
 import 'package:crypto_education/views/screens/profile/subscription_plan.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
-  Profile({super.key});
-
-  final List<ClickableButtonModel> options =  [
-    ClickableButtonModel(
-      icon: AppIcons.userCrown,
-      title: "personal_information".tr,
-      route: PersonalInformation(),
-    ),
-    ClickableButtonModel(
-      icon: AppIcons.crown,
-      title: "subscription_plan".tr,
-      route: SubscriptionPlan(),
-    ),
-    ClickableButtonModel(
-      icon: AppIcons.info,
-      title: "terms_of_service".tr,
-      route: Info(title: "terms_of_service".tr, data: "terms_conditions"),
-    ),
-    ClickableButtonModel(
-      icon: AppIcons.privacy,
-      title: "privacy_policy".tr,
-      route: Info(title: "privacy_policy".tr, data: "privacy_policies"),
-    ),
-    ClickableButtonModel(
-      icon: AppIcons.about,
-      title: "about_us".tr,
-      route: Info(title: "about_us".tr, data: "about_us"),
-    ),
-    ClickableButtonModel(icon: AppIcons.logout, title: "logout".tr),
-  ];
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +27,45 @@ class Profile extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 24),
-              ...options.map((e) {
+              ...[
+                ClickableButtonModel(
+                  icon: AppIcons.userCrown,
+                  title: "personal_information".tr,
+                  route: PersonalInformation(),
+                ),
+                ClickableButtonModel(
+                  icon: "assets/icons/language.svg",
+                  title: "language".tr,
+                  route: Language(),
+                ),
+                ClickableButtonModel(
+                  icon: AppIcons.crown,
+                  title: "subscription_plan".tr,
+                  route: SubscriptionPlan(),
+                ),
+                ClickableButtonModel(
+                  icon: AppIcons.info,
+                  title: "terms_of_service".tr,
+                  route: Info(
+                    title: "terms_of_service".tr,
+                    data: "terms_conditions",
+                  ),
+                ),
+                ClickableButtonModel(
+                  icon: AppIcons.privacy,
+                  title: "privacy_policy".tr,
+                  route: Info(
+                    title: "privacy_policy".tr,
+                    data: "privacy_policies",
+                  ),
+                ),
+                ClickableButtonModel(
+                  icon: AppIcons.about,
+                  title: "about_us".tr,
+                  route: Info(title: "about_us".tr, data: "about_us"),
+                ),
+                ClickableButtonModel(icon: AppIcons.logout, title: "logout".tr),
+              ].map((e) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: GestureDetector(

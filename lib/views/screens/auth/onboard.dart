@@ -1,6 +1,8 @@
+import 'package:crypto_education/services/shared_prefs_service.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
+import 'package:crypto_education/views/screens/auth/choose_version.dart';
 import 'package:crypto_education/views/screens/auth/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,8 +39,14 @@ class Onboard extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       CustomButton(
-                        onTap: () {
+                        onTap: () async {
                           Get.off(() => Signin());
+                          if (await SharedPrefsService.get(
+                                "language_selected",
+                              ) !=
+                              "selected") {
+                            Get.to(() => ChooseVersion(), duration: Duration());
+                          }
                         },
                         text: "get_start".tr,
                         trailing: AppIcons.arrowRight,

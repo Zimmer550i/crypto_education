@@ -1,3 +1,6 @@
+import 'package:crypto_education/controllers/chat_controller.dart';
+import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -7,28 +10,39 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Chat extends StatefulWidget {
-  final bool expanded;
-  const Chat({super.key, this.expanded = true});
+  final String? videoId;
+  const Chat({super.key, this.videoId});
 
   @override
   State<Chat> createState() => _ChatState();
 }
 
 class _ChatState extends State<Chat> {
-  List<String> messages = [];
+  final chat = Get.find<ChatController>();
+  final textCtrl = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  void addMessages() {
-    setState(() {
-      messages = [
-        "Lorem ipsum dolor sit amet consectetur. Mauris ut habitant nec imperdiet diam sodales scelerisque.",
-        "Lorem ipsum dolor sit amet consectetur. A elit quis dignissim egestas quis. Scelerisque est donec faucibus purus rhoncus maecenas ut felis sit. Pharetra vel justo lectus gravida massa pharetra pellentesque. Viverra pulvinar hac eget ipsum risus. Diam ultrices ut at eget sed laoreet. Enim mattis donec posuere sed. Nunc amet sed laoreet laoreet.",
-        // "Lorem ipsum dolor sit amet consectetur. Mauris ut habitant nec imperdiet diam sodales scelerisque.",
-        // "Lorem ipsum dolor sit amet consectetur. A elit quis dignissim egestas quis. Scelerisque est donec faucibus purus rhoncus maecenas ut felis sit. Pharetra vel justo lectus gravida massa pharetra pellentesque. Viverra pulvinar hac eget ipsum risus. Diam ultrices ut at eget sed laoreet. Enim mattis donec posuere sed. Nunc amet sed laoreet laoreet.",
-        // "Lorem ipsum dolor sit amet consectetur. Mauris ut habitant nec imperdiet diam sodales scelerisque.",
-        // "Lorem ipsum dolor sit amet consectetur. A elit quis dignissim egestas quis. Scelerisque est donec faucibus purus rhoncus maecenas ut felis sit. Pharetra vel justo lectus gravida massa pharetra pellentesque. Viverra pulvinar hac eget ipsum risus. Diam ultrices ut at eget sed laoreet. Enim mattis donec posuere sed. Nunc amet sed laoreet laoreet.",
-      ];
-    });
+  @override
+  void initState() {
+    super.initState();
+    if (chat.currentGlobalSession.value == null && !chat.isLoading.value) {
+      if (widget.videoId == null) {
+        chat.createGlobalChat();
+      } else {}
+    }
+  }
+
+  void sendMessage({String? template}) async {
+    if (textCtrl.text.isNotEmpty || template != null) {
+      chat.sendGlobalMessage(template ?? textCtrl.text).then((message) {
+        if (message != "success") {
+          Get.snackbar("error_occurred".tr, message);
+        }
+      });
+      textCtrl.clear();
+    }
+
+    _focusNode.unfocus();
   }
 
   @override
@@ -36,27 +50,38 @@ class _ChatState extends State<Chat> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        messages.isEmpty
-            ? newChat()
-            : MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: ListView.builder(
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    bool isSender = index % 2 == 0;
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 16,
-                        bottom: index == messages.length - 1 ? 82 : 0,
+        Obx(
+          () => chat.fetchingChat.value
+              ? Center(child: CircularProgressIndicator(color: AppColors.cyan))
+              : chat.getMessages().isEmpty
+              ? newChat()
+              : SingleChildScrollView(
+                  reverse: true,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        spacing: 16,
+                        children: [
+                          for (var i in chat.getMessages())
+                            chatText(i.content, i.role == "user"),
+
+                          if (chat.aiReplying.value)
+                            Row(
+                              spacing: 12,
+                              children: [
+                                CustomSvg(asset: "assets/icons/bot.svg"),
+                                TypingIndicator(),
+                              ],
+                            ),
+
+                          const SizedBox(height: 66),
+                        ],
                       ),
-                      child: chatText(messages[index], isSender),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
+        ),
         inputField(),
       ],
     );
@@ -70,8 +95,7 @@ class _ChatState extends State<Chat> {
           ? MainAxisAlignment.end
           : MainAxisAlignment.start,
       children: [
-        if (!isSender)
-          ProfilePicture(image: "https://thispersondoesnotexist.com", size: 40),
+        if (!isSender) CustomSvg(asset: "assets/icons/bot.svg"),
         Flexible(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
@@ -104,7 +128,12 @@ class _ChatState extends State<Chat> {
           ),
         ),
         if (isSender)
-          ProfilePicture(image: "https://thispersondoesnotexist.com", size: 40),
+          ProfilePicture(
+            image: ApiService.getImgUrl(
+              Get.find<UserController>().userInfo.value?.image,
+            ),
+            size: 40,
+          ),
       ],
     );
   }
@@ -116,14 +145,12 @@ class _ChatState extends State<Chat> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            widget.expanded
-                ? "ask_me_anything".tr
-                : "ask_video".tr,
+            widget.videoId == null ? "ask_me_anything".tr : "ask_video".tr,
             textAlign: TextAlign.center,
             style: AppTexts.tlgr.copyWith(color: AppColors.cyan.shade400),
           ),
           const SizedBox(height: 80),
-          if (widget.expanded)
+          if (widget.videoId == null)
             Column(
               children: [
                 suggesions("what_is_wallet".tr),
@@ -158,8 +185,10 @@ class _ChatState extends State<Chat> {
               const SizedBox(width: 8),
               Expanded(
                 child: TextField(
+                  controller: textCtrl,
                   focusNode: _focusNode,
                   cursorColor: AppColors.cyan.shade300,
+                  style: TextStyle(color: AppColors.cyan.shade100),
                   decoration: InputDecoration(
                     isDense: true,
                     border: InputBorder.none,
@@ -171,18 +200,11 @@ class _ChatState extends State<Chat> {
                   onTapOutside: (event) {
                     _focusNode.unfocus();
                   },
+                  onSubmitted: (value) => sendMessage(),
                 ),
               ),
               InkWell(
-                onTap: () {
-                  if (messages.isEmpty) {
-                    addMessages();
-                  } else {
-                    setState(() {
-                      messages.clear();
-                    });
-                  }
-                },
+                onTap: sendMessage,
                 borderRadius: BorderRadius.circular(99),
                 child: Container(
                   height: 32,
@@ -201,16 +223,20 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  Container suggesions(String text) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.gray.shade800,
-        borderRadius: BorderRadius.circular(99),
-      ),
-      child: Text(
-        text,
-        style: AppTexts.txss.copyWith(color: AppColors.gray.shade300),
+  Widget suggesions(String text) {
+    return InkWell(
+      onTap: () => sendMessage(template: text),
+      borderRadius: BorderRadius.circular(99),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.gray.shade800,
+          borderRadius: BorderRadius.circular(99),
+        ),
+        child: Text(
+          text,
+          style: AppTexts.txss.copyWith(color: AppColors.gray.shade300),
+        ),
       ),
     );
   }

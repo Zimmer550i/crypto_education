@@ -1,3 +1,4 @@
+import 'package:crypto_education/controllers/chat_controller.dart';
 import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
@@ -24,6 +25,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final user = Get.find<UserController>();
+  final chat = Get.find<ChatController>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = PageController();
   final List<Widget> pages = [
@@ -99,6 +101,13 @@ class _AppState extends State<App> {
           InkWell(
             onTap: () {
               if (index == 2) {
+                if (chat.globalSessions.isEmpty) {
+                  chat.getGlobalSession().then((message) {
+                    if (message != "success") {
+                      Get.snackbar("error_occurred".tr, message);
+                    }
+                  });
+                }
                 _scaffoldKey.currentState?.openDrawer();
               } else {
                 Get.to(() => Notifications());
@@ -126,113 +135,119 @@ class _AppState extends State<App> {
       ),
       drawer: Drawer(
         backgroundColor: AppColors.gray.shade800,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: showingHistory
-                ? Column(
-                    spacing: 24,
-                    children: [
-                      InkWell(
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 24),
+              child: Obx(
+                () => Column(
+                  spacing: 24,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        chat.createGlobalChat().then((message) {
+                          if (message == "success") {
+                          } else {
+                            Get.snackbar("error_occurred".tr, message);
+                          }
+                        });
+                        Get.back();
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            CustomSvg(
+                              asset: AppIcons.edit,
+                              color: AppColors.gray.shade200,
+                            ),
+                            const SizedBox(width: 16),
+                            Text(
+                              "new_chat".tr,
+                              style: AppTexts.tsmr.copyWith(
+                                color: AppColors.gray.shade100,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 1,
+                      color: AppColors.gray.shade100,
+                    ),
+                    if (chat.isLoading.value)
+                      CircularProgressIndicator(color: AppColors.cyan),
+                    for (var i in chat.globalSessions)
+                      GestureDetector(
                         onTap: () {
-                          setState(() {
-                            showingHistory = false;
-                          });
+                          Get.back();
+                          chat.currentGlobalSession = Rxn(i);
+                          chat.getGlobalMessages();
                         },
-                        child: options(AppIcons.arrowLeft, "history".tr),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: AppColors.gray.shade100,
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              for (int i = 0; i < 20; i++)
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    bottom: 16,
-                                    right: 24,
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.gray.shade700,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Chat Name",
-                                          style: AppTexts.tsmr.copyWith(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        SizedBox(
-                                          height: 24,
-                                          width: 24,
-                                          child: PopupMenuButton(
-                                            padding: EdgeInsets.zero,
-                                            iconColor: AppColors.gray.shade200,
-                                            color: AppColors.gray.shade700,
-                                            elevation: 10,
-                                            shadowColor: Colors.black,
-                                            icon: CustomSvg(
-                                              asset: AppIcons.more,
-                                            ),
-                                            itemBuilder: (context) {
-                                              return [
-                                                PopupMenuItem(
-                                                  child: options(
-                                                    AppIcons.rename,
-                                                    "rename".tr,
-                                                  ),
-                                                ),
-                                                PopupMenuItem(
-                                                  child: options(
-                                                    AppIcons.delete,
-                                                    "delete".tr,
-                                                  ),
-                                                ),
-                                              ];
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 0, right: 24),
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: i == chat.currentGlobalSession.value
+                                  ? AppColors.cyan
+                                  : AppColors.gray.shade700,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  i.name,
+                                  style: AppTexts.tsmr.copyWith(
+                                    color: i == chat.currentGlobalSession.value
+                                        ? AppColors.gray.shade900
+                                        : Colors.white,
                                   ),
                                 ),
-                            ],
+                                Spacer(),
+                                SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: PopupMenuButton(
+                                    padding: EdgeInsets.zero,
+                                    iconColor:
+                                        i == chat.currentGlobalSession.value
+                                        ? AppColors.gray.shade900
+                                        : AppColors.gray.shade200,
+                                    color: AppColors.gray.shade700,
+                                    elevation: 10,
+                                    shadowColor: Colors.black,
+                                    icon: CustomSvg(asset: AppIcons.more),
+                                    itemBuilder: (context) {
+                                      return [
+                                        PopupMenuItem(
+                                          child: options(
+                                            AppIcons.rename,
+                                            "rename".tr,
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          child: options(
+                                            AppIcons.delete,
+                                            "delete".tr,
+                                          ),
+                                        ),
+                                      ];
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  )
-                : Column(
-                    spacing: 24,
-                    children: [
-                      options(AppIcons.edit, "new_chat".tr),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            showingHistory = true;
-                          });
-                        },
-                        child: options(AppIcons.history, "history".tr),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 1,
-                        color: AppColors.gray.shade100,
-                      ),
-                      options(AppIcons.terms, "terms".tr),
-                      options(AppIcons.privacy2, "privacy".tr),
-                      options(AppIcons.settings, "settings".tr),
-                    ],
-                  ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),

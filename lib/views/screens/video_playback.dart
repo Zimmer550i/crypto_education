@@ -16,11 +16,7 @@ class VideoPlayback extends StatelessWidget {
         children: [
           SafeArea(
             bottom: false,
-            child: Stack(
-              children: [
-                VideoWidget(video.videoFile),
-              ],
-            ),
+            child: Stack(children: [VideoWidget(video.videoFile)]),
           ),
           Container(
             width: double.infinity,
@@ -39,7 +35,7 @@ class VideoPlayback extends StatelessWidget {
             height: 1,
             color: AppColors.gray.shade700,
           ),
-          Expanded(child: Chat(expanded: false)),
+          Expanded(child: Chat(videoId: video.id.toString())),
         ],
       ),
     );

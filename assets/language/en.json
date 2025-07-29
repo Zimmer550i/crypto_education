@@ -99,5 +99,6 @@
   "home": "Home",
   "videos": "Videos",
   "chat": "Chat",
-  "profile": "Profile"
+  "profile": "Profile",
+  "no_videos": "No videos available at this moment"
 }

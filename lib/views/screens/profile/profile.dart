@@ -135,6 +135,7 @@ class Profile extends StatelessWidget {
                 const SizedBox(height: 75),
                 Text(
                   "are_you_sure_logout".tr,
+                  textAlign: TextAlign.center,
                   style: AppTexts.tmdr.copyWith(color: AppColors.gray),
                 ),
                 const SizedBox(height: 4),

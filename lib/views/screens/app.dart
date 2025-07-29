@@ -9,6 +9,7 @@ import 'package:crypto_education/views/base/profile_picture.dart';
 import 'package:crypto_education/views/screens/chat.dart';
 import 'package:crypto_education/views/screens/home.dart';
 import 'package:crypto_education/views/screens/notifications.dart';
+import 'package:crypto_education/views/screens/profile/personal_information.dart';
 import 'package:crypto_education/views/screens/profile/profile.dart';
 import 'package:crypto_education/views/screens/videos.dart';
 import 'package:flutter/material.dart';
@@ -60,22 +61,28 @@ class _AppState extends State<App> {
                 ? Align(
                     alignment: Alignment.centerLeft,
                     key: ValueKey("profileView"),
-                    child: Row(
-                      children: [
-                        ProfilePicture(
-                          image: ApiService.getImgUrl(
-                            user.userInfo.value?.image,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(() => PersonalInformation());
+                      },
+                      behavior: HitTestBehavior.translucent,
+                      child: Row(
+                        children: [
+                          ProfilePicture(
+                            image: ApiService.getImgUrl(
+                              user.userInfo.value?.image,
+                            ),
+                            size: 44,
                           ),
-                          size: 44,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          "${"hi_user".tr} ${user.userInfo.value?.fullName}",
-                          style: AppTexts.tmdr.copyWith(
-                            color: AppColors.gray.shade100,
+                          const SizedBox(width: 8),
+                          Text(
+                            "${"hi_user".tr} ${user.userInfo.value?.fullName}",
+                            style: AppTexts.tmdr.copyWith(
+                              color: AppColors.gray.shade100,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 : Align(
@@ -103,7 +110,14 @@ class _AppState extends State<App> {
               child: Center(
                 child: index == 2
                     ? CustomSvg(asset: AppIcons.menu)
-                    : CustomSvg(asset: AppIcons.notification),
+                    : Obx(
+                        () => CustomSvg(
+                          asset: user.unreadNotifications.value == 0
+                              ? AppIcons.notification
+                              : "assets/icons/notification_alert.svg",
+                          color: AppColors.gray.shade100,
+                        ),
+                      ),
               ),
             ),
           ),

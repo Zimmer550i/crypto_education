@@ -2,7 +2,7 @@ import 'package:crypto_education/themes/dark_theme.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_constants.dart';
 import 'package:crypto_education/utils/message.dart';
-import 'package:crypto_education/views/screens/app.dart';
+import 'package:crypto_education/views/screens/auth/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               transitionDuration: const Duration(milliseconds: 500),
               getPages: AppRoutes.pages,
               // initialRoute: AppRoutes.splash,
-              home: App(),
+              home: Splash(),
             );
           },
         );

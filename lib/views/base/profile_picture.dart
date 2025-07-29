@@ -72,8 +72,11 @@ class ProfilePicture extends StatelessWidget {
                       return Container(
                         width: size,
                         height: size,
-                        color: AppColors.cyan[100],
-                        child: Icon(Icons.error, color: Colors.blue),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.cyan[400]!),
+                        ),
+                        child: Icon(Icons.error, color: AppColors.cyan[400]!),
                       );
                     },
                     width: size,

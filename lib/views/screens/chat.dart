@@ -1,5 +1,6 @@
 import 'package:crypto_education/controllers/chat_controller.dart';
 import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/models/video.dart';
 import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
@@ -10,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Chat extends StatefulWidget {
-  final String? videoId;
-  const Chat({super.key, this.videoId});
+  final Video? video;
+  const Chat({super.key, this.video});
 
   @override
   State<Chat> createState() => _ChatState();
@@ -26,11 +27,10 @@ class _ChatState extends State<Chat> {
   void initState() {
     super.initState();
     if (!chat.isLoading.value) {
-      if (widget.videoId == null && chat.currentGlobalSession.value == null) {
+      if (widget.video == null && chat.currentGlobalSession.value == null) {
         chat.createGlobalChat();
-      } else if (widget.videoId != null &&
-          chat.currentVideoSession.value == null) {
-        chat. createVideoChat();
+      } else if (widget.video != null) {
+        chat.createVideoChat();
       }
     }
   }
@@ -38,8 +38,8 @@ class _ChatState extends State<Chat> {
   void sendMessage({String? template}) async {
     if (textCtrl.text.isNotEmpty || template != null) {
       final message = template ?? textCtrl.text;
-      final sendMessageMethod = widget.videoId != null
-          ? chat.sendVideoMessage(message)
+      final sendMessageMethod = widget.video != null
+          ? chat.sendVideoMessage(widget.video!.subtitleObjectId, message)
           : chat.sendGlobalMessage(message);
 
       sendMessageMethod.then((response) {
@@ -62,7 +62,7 @@ class _ChatState extends State<Chat> {
         Obx(
           () => chat.fetchingChat.value
               ? Center(child: CircularProgressIndicator(color: AppColors.cyan))
-              : chat.getMessages(isVideo: widget.videoId != null).isEmpty
+              : chat.getMessages(isVideo: widget.video != null).isEmpty
               ? newChat()
               : SingleChildScrollView(
                   reverse: true,
@@ -72,7 +72,9 @@ class _ChatState extends State<Chat> {
                       child: Column(
                         spacing: 16,
                         children: [
-                          for (var i in chat.getMessages(isVideo: widget.videoId != null))
+                          for (var i in chat.getMessages(
+                            isVideo: widget.video != null,
+                          ))
                             chatText(i.content, i.role == "user"),
 
                           if (chat.aiReplying.value)
@@ -154,12 +156,12 @@ class _ChatState extends State<Chat> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            widget.videoId == null ? "ask_me_anything".tr : "ask_video".tr,
+            widget.video == null ? "ask_me_anything".tr : "ask_video".tr,
             textAlign: TextAlign.center,
             style: AppTexts.tlgr.copyWith(color: AppColors.cyan.shade400),
           ),
           const SizedBox(height: 80),
-          if (widget.videoId == null)
+          if (widget.video == null)
             Column(
               children: [
                 suggesions("what_is_wallet".tr),

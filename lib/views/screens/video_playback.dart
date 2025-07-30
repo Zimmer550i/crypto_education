@@ -35,7 +35,7 @@ class VideoPlayback extends StatelessWidget {
             height: 1,
             color: AppColors.gray.shade700,
           ),
-          Expanded(child: Chat(videoId: video.id.toString())),
+          Expanded(child: Chat(video: video)),
         ],
       ),
     );

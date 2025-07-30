@@ -176,8 +176,7 @@ class ChatController extends GetxController {
     }
   }
 
-  // TODO: Complete this
-  Future<String> sendVideoMessage(String message) async {
+  Future<String> sendVideoMessage(String id, String message) async {
     aiReplying(true);
     try {
       String sessionId = currentVideoSession.value!;
@@ -201,7 +200,7 @@ class ChatController extends GetxController {
         language = "English";
       }
       final response = await api.post(
-        "/api/v1/ai/ask_question_from_video/d715f9ec-25ee-4790-880a-82390b72b21d/",
+        "/api/v1/ai/ask_question_from_video/$id/",
         {"question": message.trim(), "session_id": sessionId},
         queryParams: {"language": language},
         authReq: true,
@@ -251,6 +250,32 @@ class ChatController extends GetxController {
         return "Deleted successfully";
       } else {
         return "Could not be deleted";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<String> renameGlobalSession(String id, String name) async {
+    isLoading(true);
+    try {
+      final response = await api.post("/api/v1/ai/rename_global_session/$id/", {
+        "name": name,
+      }, authReq: true);
+      // final body = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        final index = globalSessions.indexWhere((val) {
+          return val.objectId == id;
+        });
+
+        globalSessions.elementAt(index).name = name;
+
+        return "success";
+      } else {
+        return "Connection Error";
       }
     } catch (e) {
       return "Unexpected error: ${e.toString()}";

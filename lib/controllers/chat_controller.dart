@@ -233,6 +233,9 @@ class ChatController extends GetxController {
   Future<String> deleteGlobalSession(String id) async {
     isLoading(true);
     try {
+      if (currentGlobalSession.value?.objectId == id) {
+        createGlobalChat();
+      }
       final response = await api.delete(
         "/api/v1/ai/rename_global_session/$id/",
         authReq: true,
@@ -241,13 +244,10 @@ class ChatController extends GetxController {
 
       if (response.statusCode == 204) {
         globalSessions.removeWhere((val) {
-          if (currentGlobalSession.value == val) {
-            createGlobalChat();
-          }
           return val.objectId == id;
         });
 
-        return "Deleted successfully";
+        return "success";
       } else {
         return "Could not be deleted";
       }

@@ -170,18 +170,15 @@ class _ChatDrawerState extends State<ChatDrawer> {
                                                       i.objectId,
                                                     )
                                                     .then((message) {
-                                                      Get.snackbar(
-                                                        "error_occurred".tr,
-                                                        message,
-                                                      );
+                                                      if (message !=
+                                                          "success") {
+                                                        Get.snackbar(
+                                                          "error_occurred".tr,
+                                                          message,
+                                                        );
+                                                      }
                                                     });
-                                                if (chat
-                                                        .currentGlobalSession
-                                                        .value
-                                                        ?.objectId ==
-                                                    i.objectId) {
-                                                  chat.createGlobalChat();
-                                                }
+                                                Get.back();
                                               },
                                             ),
                                           ];

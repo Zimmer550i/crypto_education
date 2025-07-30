@@ -27,6 +27,9 @@ class AuthController extends GetxController {
         var body = jsonDecode(response.body);
 
         if (response.statusCode == 200) {
+          Get.find<UserController>().setInfo(body['user']);
+          setToken(body['access']);
+
           return "success";
         } else {
           return body['message'] ?? "Connection Error";

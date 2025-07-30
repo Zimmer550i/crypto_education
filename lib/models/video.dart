@@ -8,7 +8,7 @@ class Video {
   final String? videoFile;
   final String? videoFilename;
   final String? videoPath;
-  final int durationSeconds;
+  final int? durationSeconds;
   final int order;
   final DateTime createdAt;
   final String subtitleObjectId;

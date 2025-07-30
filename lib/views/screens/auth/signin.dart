@@ -118,7 +118,11 @@ class _SigninState extends State<Signin> {
                   const SizedBox(height: 24),
                   CustomButton(
                     onTap: () => auth.googleLogin().then((message) {
-                      customSnackbar("error_occurred".tr, message);
+                      if (message == "success") {
+                        Get.offAll(() => App());
+                      } else {
+                        customSnackbar("error_occurred".tr, message);
+                      }
                     }),
                     text: "login_with_google".tr,
                     isSecondary: true,

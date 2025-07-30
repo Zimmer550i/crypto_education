@@ -81,7 +81,7 @@ class _PlaylistState extends State<Playlist> {
                                     children: [
                                       Text(i.title, style: AppTexts.tmdm),
                                       Text(
-                                        "${i.durationSeconds ~/ 60}${"minute".tr}",
+                                        "${i.durationSeconds != null ? (i.durationSeconds! ~/ 60) : "0"}${"minute".tr}",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 10,

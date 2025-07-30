@@ -16,7 +16,7 @@ class VideoPlayback extends StatelessWidget {
         children: [
           SafeArea(
             bottom: false,
-            child: Stack(children: [VideoWidget(video.videoFile)]),
+            child: Stack(children: [VideoWidget(video.videoFile ?? "")]),
           ),
           Container(
             width: double.infinity,

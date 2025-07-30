@@ -25,20 +25,29 @@ class _ChatState extends State<Chat> {
   @override
   void initState() {
     super.initState();
-    if (chat.currentGlobalSession.value == null && !chat.isLoading.value) {
-      if (widget.videoId == null) {
+    if (!chat.isLoading.value) {
+      if (widget.videoId == null && chat.currentGlobalSession.value == null) {
         chat.createGlobalChat();
-      } else {}
+      } else if (widget.videoId != null &&
+          chat.currentVideoSession.value == null) {
+        chat. createVideoChat();
+      }
     }
   }
 
   void sendMessage({String? template}) async {
     if (textCtrl.text.isNotEmpty || template != null) {
-      chat.sendGlobalMessage(template ?? textCtrl.text).then((message) {
-        if (message != "success") {
-          Get.snackbar("error_occurred".tr, message);
+      final message = template ?? textCtrl.text;
+      final sendMessageMethod = widget.videoId != null
+          ? chat.sendVideoMessage(message)
+          : chat.sendGlobalMessage(message);
+
+      sendMessageMethod.then((response) {
+        if (response != "success") {
+          Get.snackbar("error_occurred".tr, response);
         }
       });
+
       textCtrl.clear();
     }
 
@@ -53,7 +62,7 @@ class _ChatState extends State<Chat> {
         Obx(
           () => chat.fetchingChat.value
               ? Center(child: CircularProgressIndicator(color: AppColors.cyan))
-              : chat.getMessages().isEmpty
+              : chat.getMessages(isVideo: widget.videoId != null).isEmpty
               ? newChat()
               : SingleChildScrollView(
                   reverse: true,
@@ -63,7 +72,7 @@ class _ChatState extends State<Chat> {
                       child: Column(
                         spacing: 16,
                         children: [
-                          for (var i in chat.getMessages())
+                          for (var i in chat.getMessages(isVideo: widget.videoId != null))
                             chatText(i.content, i.role == "user"),
 
                           if (chat.aiReplying.value)

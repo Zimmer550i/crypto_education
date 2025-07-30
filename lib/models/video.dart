@@ -3,9 +3,9 @@ class Video {
   final String title;
   final int category;
   final String categoryName;
-  final int language;
-  final String languageName;
-  final String videoFile;
+  final int? language;
+  final String? languageName;
+  final String? videoFile;
   final int durationSeconds;
   final int order;
   final DateTime createdAt;
@@ -15,9 +15,9 @@ class Video {
     required this.title,
     required this.category,
     required this.categoryName,
-    required this.language,
-    required this.languageName,
-    required this.videoFile,
+    this.language,
+    this.languageName,
+    this.videoFile,
     required this.durationSeconds,
     required this.order,
     required this.createdAt,

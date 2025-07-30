@@ -234,6 +234,16 @@ class _AppState extends State<App> {
                                             AppIcons.delete,
                                             "delete".tr,
                                           ),
+                                          onTap: () {
+                                            chat
+                                                .deleteGlobalSession(i.objectId)
+                                                .then((message) {
+                                                  Get.snackbar(
+                                                    "error_occurred".tr,
+                                                    message,
+                                                  );
+                                                });
+                                          },
                                         ),
                                       ];
                                     },

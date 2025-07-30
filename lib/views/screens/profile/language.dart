@@ -55,6 +55,15 @@ class _LanguageState extends State<Language> {
                   locale.setLanguage(Locale.fromSubtags(languageCode: "de"));
                 },
               ),
+              const SizedBox(height: 16),
+              CustomRadioButton(
+                value: selected == 2,
+                title: "বাংলা",
+                onClick: () {
+                  selected = 2;
+                  locale.setLanguage(Locale.fromSubtags(languageCode: "bn"));
+                },
+              ),
               Spacer(),
               CustomButton(
                 text: "confirm".tr,

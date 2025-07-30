@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crypto_education/controllers/localization_controller.dart';
 import 'package:crypto_education/models/chat_model.dart';
 import 'package:crypto_education/models/message_model.dart';
 import 'package:crypto_education/services/api_service.dart';
@@ -10,6 +11,7 @@ class ChatController extends GetxController {
   RxMap<String, RxList<MessageModel>> messageBuffer = RxMap();
   RxList<ChatModel> globalSessions = RxList.empty();
   Rxn<ChatModel> currentGlobalSession = Rxn();
+  RxnString currentVideoSession = RxnString();
   RxBool isLoading = RxBool(false);
   RxBool fetchingChat = RxBool(false);
   RxBool aiReplying = RxBool(false);
@@ -108,6 +110,30 @@ class ChatController extends GetxController {
     }
   }
 
+  Future<String> createVideoChat() async {
+    fetchingChat(true);
+    try {
+      final response = await api.post(
+        "/api/v1/ai/create_video_chat_session/",
+        {},
+        authReq: true,
+      );
+      var body = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        currentVideoSession.value = body['session_id'];
+
+        return "success";
+      } else {
+        return body['message'] ?? "Connection Error";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    } finally {
+      fetchingChat(false);
+    }
+  }
+
   Future<String> sendGlobalMessage(String message) async {
     aiReplying(true);
     try {
@@ -122,16 +148,76 @@ class ChatController extends GetxController {
           sessionId: sessionId,
         ),
       );
-      final response = await api.post("/api/v1/ai/ask_global_question/", {
-        "question": message.trim(),
-        "session_id": sessionId,
-      }, authReq: true);
+      String language;
+      if (Get.find<LocalizationController>().locale.languageCode == "de") {
+        language = "German";
+      } else {
+        language = "English";
+      }
+      final response = await api.post(
+        "/api/v1/ai/ask_global_question/",
+        {"question": message.trim(), "session_id": sessionId},
+        queryParams: {"language": language},
+        authReq: true,
+      );
+      var body = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        addMessage(sessionId, MessageModel.fromJson(body));
+
+        return "success";
+      } else {
+        return body['message'] ?? "Connection Error";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    } finally {
+      aiReplying(false);
+    }
+  }
+
+  // TODO: Complete this
+  Future<String> sendVideoMessage(String message) async {
+    aiReplying(true);
+    try {
+      String sessionId = currentVideoSession.value!;
+      addMessage(
+        sessionId,
+        MessageModel(
+          content: message,
+          role: "user",
+          objectId: "does_not_exists",
+          timestamp: DateTime.timestamp().toString(),
+          sessionId: sessionId,
+        ),
+      );
+      String language;
+      if (Get.find<LocalizationController>().locale.languageCode == "de") {
+        language = "German";
+      } else if (Get.find<LocalizationController>().locale.languageCode ==
+          "bn") {
+        language = "Bangla";
+      } else {
+        language = "English";
+      }
+      final response = await api.post(
+        "/api/v1/ai/ask_question_from_video/d715f9ec-25ee-4790-880a-82390b72b21d/",
+        {"question": message.trim(), "session_id": sessionId},
+        queryParams: {"language": language},
+        authReq: true,
+      );
       var body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         addMessage(
           sessionId,
-          MessageModel.fromJson(body),
+          MessageModel(
+            content: body["answer"],
+            role: "bot",
+            objectId: "",
+            timestamp: DateTime.timestamp().toString(),
+            sessionId: sessionId,
+          ),
         );
 
         return "success";
@@ -145,6 +231,34 @@ class ChatController extends GetxController {
     }
   }
 
+  Future<String> deleteGlobalSession(String id) async {
+    isLoading(true);
+    try {
+      final response = await api.delete(
+        "/api/v1/ai/rename_global_session/$id/",
+        authReq: true,
+      );
+      // final body = jsonDecode(response.body);
+
+      if (response.statusCode == 204) {
+        globalSessions.removeWhere((val) {
+          if (currentGlobalSession.value == val) {
+            createGlobalChat();
+          }
+          return val.objectId == id;
+        });
+
+        return "Deleted successfully";
+      } else {
+        return "Could not be deleted";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    } finally {
+      isLoading(false);
+    }
+  }
+
   void addMessage(String sessionId, MessageModel message) {
     if (messageBuffer.containsKey(sessionId)) {
       messageBuffer[sessionId]!.add(message);
@@ -153,9 +267,14 @@ class ChatController extends GetxController {
     }
   }
 
-  RxList<MessageModel> getMessages({ChatModel? chatModel}) {
-    chatModel ??= currentGlobalSession.value;
+  RxList<MessageModel> getMessages({
+    ChatModel? chatModel,
+    bool isVideo = false,
+  }) {
+    String? id = isVideo
+        ? currentVideoSession.value
+        : currentGlobalSession.value?.objectId;
 
-    return messageBuffer[chatModel?.objectId] ?? RxList.empty();
+    return messageBuffer[id ?? ""] ?? RxList.empty();
   }
 }

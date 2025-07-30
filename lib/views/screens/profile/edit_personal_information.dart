@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/services/api_service.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_text_field.dart';
@@ -37,9 +38,9 @@ class _EditPersonalInformationState extends State<EditPersonalInformation> {
 
     if (message == "success") {
       Get.back();
-      Get.snackbar("successful".tr, "profile_info_updated".tr);
+      customSnackbar("successful".tr, "profile_info_updated".tr);
     } else {
-      Get.snackbar("error_occurred".tr, message);
+      customSnackbar("error_occurred".tr, message);
     }
   }
 

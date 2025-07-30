@@ -1,5 +1,6 @@
 import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_icons.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_text_field.dart';
@@ -39,12 +40,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
     if (message == "success") {
       Get.to(() => Verification(isPasswordReset: true, email: emailCtrl.text));
-      Get.snackbar(
+      customSnackbar(
         "otp_sent_success".tr,
         "${"enter_otp".tr} ${widget.email}",
       );
     } else {
-      Get.snackbar("error_occurred".tr, message);
+      customSnackbar("error_occurred".tr, message);
     }
   }
 

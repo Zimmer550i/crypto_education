@@ -2,6 +2,7 @@ import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_text_field.dart';
@@ -26,9 +27,9 @@ class _ResetPasswordState extends State<ResetPassword> {
 
     if (message == "success") {
       Get.offAll(() => Signin());
-      Get.snackbar("password_reset_success".tr, "sign_in_again".tr);
+      customSnackbar("password_reset_success".tr, "sign_in_again".tr);
     } else {
-      Get.snackbar("error_occurred".tr, message);
+      customSnackbar("error_occurred".tr, message);
     }
   }
 

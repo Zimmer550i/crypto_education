@@ -2,6 +2,7 @@ import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_text_field.dart';
 import 'package:crypto_education/views/screens/auth/signin.dart';
@@ -33,12 +34,12 @@ class _SignupState extends State<Signup> {
 
     if (message == "success") {
       Get.to(() => Verification(email: emailCtrl.text));
-      Get.snackbar(
+      customSnackbar(
         "account_created_successfully".tr,
         "please_check_email_for_verification".tr,
       );
     } else {
-      Get.snackbar("error_occurred".tr, message);
+      customSnackbar("error_occurred".tr, message);
     }
   }
 

@@ -20,9 +20,9 @@ class AuthController extends GetxController {
       if (signInAccount != null) {
         final response = await api.post("/api/v1/auth/google_login/", {
           "email": signInAccount.email,
-          "photoUrl": signInAccount.photoUrl,
-          "name": signInAccount.displayName,
-          "id": signInAccount.id,
+          "picture": signInAccount.photoUrl,
+          "full_name": signInAccount.displayName,
+          "google_id": signInAccount.id,
         });
         var body = jsonDecode(response.body);
 

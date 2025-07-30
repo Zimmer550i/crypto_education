@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:crypto_education/controllers/auth_controller.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -197,7 +198,7 @@ class ApiService {
   void _checkTokenExpiry(bool authReq, http.Response response) {
     if (response.statusCode == 401 && authReq) {
       Get.find<AuthController>().logout();
-      Get.snackbar("Error Occured", "Sign in expired");
+      customSnackbar("Error Occured", "Sign in expired");
     }
   }
 }

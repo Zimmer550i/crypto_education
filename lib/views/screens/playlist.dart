@@ -3,6 +3,7 @@ import 'package:crypto_education/models/topic.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_loading.dart';
@@ -29,7 +30,7 @@ class _PlaylistState extends State<Playlist> {
         message,
       ) {
         if (message != "success") {
-          Get.snackbar("error_occurred".tr, message);
+          customSnackbar("error_occurred".tr, message);
         }
       });
     });

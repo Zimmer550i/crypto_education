@@ -1,5 +1,6 @@
 import 'package:crypto_education/controllers/video_controller.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_loading.dart';
 import 'package:crypto_education/views/base/pull_to_refresh.dart';
 import 'package:crypto_education/views/base/video_card.dart';
@@ -23,7 +24,7 @@ class _VideosState extends State<Videos> {
       if (video.topics.isEmpty) {
         video.getTopics().then((message) {
           if (message != "success") {
-            Get.snackbar("error_occurred".tr, message);
+            customSnackbar("error_occurred".tr, message);
           }
         });
       }
@@ -40,7 +41,7 @@ class _VideosState extends State<Videos> {
             onRefresh: () async {
               video.getTopics().then((message) {
                 if (message != "success") {
-                  Get.snackbar("error_occurred".tr, message);
+                  customSnackbar("error_occurred".tr, message);
                 }
               });
             },
@@ -54,10 +55,7 @@ class _VideosState extends State<Videos> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16),
                           child: Center(
-                            child: Text(
-                              "no_videos".tr,
-                              style: AppTexts.txsr,
-                            ),
+                            child: Text("no_videos".tr, style: AppTexts.txsr),
                           ),
                         ),
                       if (video.isLoading.value)

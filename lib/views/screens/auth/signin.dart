@@ -2,6 +2,7 @@ import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_text_field.dart';
 import 'package:crypto_education/views/screens/app.dart';
@@ -28,7 +29,7 @@ class _SigninState extends State<Signin> {
     if (message == "success") {
       Get.offAll(() => App());
     } else {
-      Get.snackbar("error_occurred".tr, message);
+      customSnackbar("error_occurred".tr, message);
     }
   }
 
@@ -117,7 +118,7 @@ class _SigninState extends State<Signin> {
                   const SizedBox(height: 24),
                   CustomButton(
                     onTap: () => auth.googleLogin().then((message) {
-                      Get.snackbar("error_occurred".tr, message);
+                      customSnackbar("error_occurred".tr, message);
                     }),
                     text: "login_with_google".tr,
                     isSecondary: true,

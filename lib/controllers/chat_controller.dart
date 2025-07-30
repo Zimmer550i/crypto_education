@@ -193,9 +193,6 @@ class ChatController extends GetxController {
       String language;
       if (Get.find<LocalizationController>().locale.languageCode == "de") {
         language = "German";
-      } else if (Get.find<LocalizationController>().locale.languageCode ==
-          "bn") {
-        language = "Bangla";
       } else {
         language = "English";
       }

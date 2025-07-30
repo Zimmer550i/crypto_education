@@ -4,6 +4,7 @@ import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/chat_drawer.dart';
 import 'package:crypto_education/views/base/custom_bottom_navbar.dart';
@@ -27,10 +28,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final user = Get.find<UserController>();
   final chat = Get.find<ChatController>();
-  final chatNameCtrl = TextEditingController();
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final controller = PageController();
   final List<Widget> pages = [
     Home(key: PageStorageKey("home")),
     Videos(key: PageStorageKey("videos")),
@@ -38,15 +36,16 @@ class _AppState extends State<App> {
     Profile(key: PageStorageKey("profile")),
   ];
 
+  final chatNameCtrl = TextEditingController();
+  final controller = PageController();
   int index = 0;
-  bool showingHistory = false;
 
   @override
   void initState() {
     super.initState();
     chat.getGlobalSession().then((message) {
       if (message != "success") {
-        Get.snackbar("error_occurred".tr, message);
+        customSnackbar("error_occurred".tr, message);
       }
     });
   }
@@ -112,7 +111,7 @@ class _AppState extends State<App> {
                 if (chat.globalSessions.isEmpty) {
                   chat.getGlobalSession().then((message) {
                     if (message != "success") {
-                      Get.snackbar("error_occurred".tr, message);
+                      customSnackbar("error_occurred".tr, message);
                     }
                   });
                 }

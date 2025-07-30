@@ -2,9 +2,9 @@ import 'package:crypto_education/models/live_class.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LiveCard extends StatelessWidget {
@@ -20,7 +20,7 @@ class LiveCard extends StatelessWidget {
         if (await canLaunchUrl(url)) {
           launchUrl(url);
         } else {
-          Get.snackbar("Error Occured", "Can't launch URL");
+          customSnackbar("Error Occured", "Can't launch URL");
         }
       },
       borderRadius: BorderRadius.circular(12),

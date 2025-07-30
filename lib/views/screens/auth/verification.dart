@@ -1,6 +1,7 @@
 import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/screens/app.dart';
@@ -35,9 +36,9 @@ class _VerificationState extends State<Verification> {
       } else {
         Get.off(() => App());
       }
-      Get.snackbar("account_verified".tr, "welcome_crypto_education".tr);
+      customSnackbar("account_verified".tr, "welcome_crypto_education".tr);
     } else {
-      Get.snackbar("error_occurred".tr, message);
+      customSnackbar("error_occurred".tr, message);
     }
   }
 
@@ -45,12 +46,12 @@ class _VerificationState extends State<Verification> {
     final message = await auth.sendOtp(widget.email);
 
     if (message == "success") {
-      Get.snackbar(
+      customSnackbar(
         "otp_sent_success".tr,
         "${"enter_otp".tr} ${widget.email}",
       );
     } else {
-      Get.snackbar("error_occurred".tr, message);
+      customSnackbar("error_occurred".tr, message);
     }
   }
 

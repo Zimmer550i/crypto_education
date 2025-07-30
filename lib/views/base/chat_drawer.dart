@@ -1,6 +1,7 @@
 import 'package:crypto_education/controllers/chat_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
                       chat.createGlobalChat().then((message) {
                         if (message == "success") {
                         } else {
-                          Get.snackbar("error_occurred".tr, message);
+                          customSnackbar("error_occurred".tr, message);
                         }
                       });
                       Get.back();
@@ -172,7 +173,7 @@ class _ChatDrawerState extends State<ChatDrawer> {
                                                     .then((message) {
                                                       if (message !=
                                                           "success") {
-                                                        Get.snackbar(
+                                                        customSnackbar(
                                                           "error_occurred".tr,
                                                           message,
                                                         );

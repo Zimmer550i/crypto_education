@@ -1,6 +1,7 @@
 import 'package:crypto_education/controllers/video_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_loading.dart';
 import 'package:crypto_education/views/base/live_card.dart';
 import 'package:crypto_education/views/base/video_card.dart';
@@ -25,13 +26,13 @@ class _HomeState extends State<Home> {
       if (video.topics.isEmpty) {
         video.getTopics().then((message) {
           if (message != "success") {
-            Get.snackbar("error_occurred".tr, message);
+            customSnackbar("error_occurred".tr, message);
           }
         });
       }
       video.getLiveClass().then((message) {
         if (message != "success") {
-          Get.snackbar("error_occurred".tr, message);
+          customSnackbar("error_occurred".tr, message);
         }
       });
     });
@@ -59,18 +60,15 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 if (video.liveClass.value != null)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 12.0),
-                      child: LiveCard(liveClass: video.liveClass.value!),
-                    ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 12.0),
+                    child: LiveCard(liveClass: video.liveClass.value!),
+                  ),
                 if (video.liveClass.value == null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Center(
-                      child: Text(
-                        "no_live_classes".tr,
-                        style: AppTexts.txsr,
-                      ),
+                      child: Text("no_live_classes".tr, style: AppTexts.txsr),
                     ),
                   ),
                 Padding(

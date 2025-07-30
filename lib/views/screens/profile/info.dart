@@ -1,4 +1,5 @@
 import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_loading.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _InfoState extends State<Info> {
     super.initState();
     user.getSettingsInfo(widget.data).then((val) {
       if (val != "success") {
-        Get.snackbar("error_occurred".tr, val);
+        customSnackbar("error_occurred".tr, val);
       }
     });
   }

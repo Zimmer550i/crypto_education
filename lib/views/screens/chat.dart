@@ -5,6 +5,7 @@ import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/profile_picture.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _ChatState extends State<Chat> {
 
       sendMessageMethod.then((response) {
         if (response != "success") {
-          Get.snackbar("error_occurred".tr, response);
+          customSnackbar("error_occurred".tr, response);
         }
       });
 

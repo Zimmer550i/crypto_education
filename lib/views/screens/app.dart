@@ -18,6 +18,8 @@ import 'package:crypto_education/views/screens/videos.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'course/video_list.dart';
+
 class App extends StatefulWidget {
   const App({super.key});
 
@@ -31,7 +33,7 @@ class _AppState extends State<App> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Widget> pages = [
     Home(key: PageStorageKey("home")),
-    Videos(key: PageStorageKey("videos")),
+    VideoList(key: PageStorageKey("videos")),
     Chat(key: PageStorageKey("chat")),
     Profile(key: PageStorageKey("profile")),
   ];

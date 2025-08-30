@@ -8,6 +8,8 @@ import 'package:crypto_education/views/base/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../base/course_list.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -23,8 +25,8 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((val) {
-      if (video.topics.isEmpty) {
-        video.getTopics().then((message) {
+      if (video.courses.isEmpty) {
+        video.getCourses().then((message) {
           if (message != "success") {
             customSnackbar("error_occurred".tr, message);
           }
@@ -88,10 +90,10 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.all(8.0),
                           child: CustomLoading(),
                         ),
-                      for (var topic in video.topics)
+                      for (var courses in video.courses)
                         Padding(
                           padding: EdgeInsetsGeometry.only(bottom: 12),
-                          child: VideoCard(topic),
+                          child: CourseList(courses),
                         ),
                     ],
                   ),

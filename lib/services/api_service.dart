@@ -10,9 +10,9 @@ import 'package:crypto_education/services/shared_prefs_service.dart';
 
 class ApiService {
   final String devUrl = "http://172.252.13.79:3235";
-  final String prodUrl = "";
-  static final String imgUrl = "http://172.252.13.79:3235";
-  final bool inDevelopment = true;
+  final String prodUrl = "https://api.theclue.io";
+  static final String imgUrl = "https://api.theclue.io";
+  final bool inDevelopment = false;
   final bool showAPICalls = true;
 
   late final String baseUrl;

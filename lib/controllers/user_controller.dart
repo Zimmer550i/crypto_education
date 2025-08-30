@@ -120,14 +120,22 @@ class UserController extends GetxController {
         fetchCallback: () =>
             api.get("/api/v1/settings/$endpointData/", authReq: true),
       );
+
+      // Decode the response
       final body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        settingsInfo[endpointData] = body['data'].first()['content'];
-
+        // Check if data exists and is a non-empty list
+        if (body['data'] != null && body['data'].isNotEmpty) {
+          // Store the HTML content directly
+          settingsInfo[endpointData] = body['data'].first['content'] ?? '';
+        } else {
+          settingsInfo[endpointData] =
+          "<p style=\"color: red; text-align: center;\">No data found</p>";
+        }
         return "success";
       } else {
-        return jsonDecode(response.body)['message'] ?? "Connection Error";
+        return body['message'] ?? "Connection Error";
       }
     } catch (e) {
       return "Unexpected error: ${e.toString()}";
@@ -135,6 +143,7 @@ class UserController extends GetxController {
       isLoading.value = false;
     }
   }
+
 
   Future<String> _getNotifications() async {
     try {

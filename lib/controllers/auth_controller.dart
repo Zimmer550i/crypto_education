@@ -79,6 +79,7 @@ class AuthController extends GetxController {
     String email,
     String password,
     String confirmPassword,
+    String language,
   ) async {
     try {
       isLoading(true);
@@ -86,6 +87,7 @@ class AuthController extends GetxController {
         "full_name": name.trim(),
         "email": email.trim(),
         "password": password.trim(),
+        "language": language.trim(),
         "confirm_password": confirmPassword.trim(),
       });
 

@@ -35,21 +35,25 @@ class _InfoState extends State<Info> {
       body: Align(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                const SizedBox(height: 24),
-                Obx(
-                  () => user.isLoading.value
-                      ? CustomLoading()
-                      : Html(
-                          data:
-                              user.settingsInfo[widget.data] ??
-                              "<p style=\"color: red; text-align: center;\">${"error_fetching_data".tr}</p>",
-                        ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          child: Obx(
+                () => user.isLoading.value
+                ? const CustomLoading()
+                : Html(
+              data: user.settingsInfo[widget.data] ??
+                  "<p style=\"color: red; text-align: center;\">${"error_fetching_data".tr}</p>",
+              style: {
+                "p": Style(
+                  fontSize: FontSize(16),
+                  lineHeight: LineHeight(1.5),
+                  color: Colors.white,
                 ),
-              ],
+                "strong": Style(
+                  fontWeight: FontWeight.bold,
+                  fontSize: FontSize(16),
+                  color: Colors.white,
+                ),
+              },
             ),
           ),
         ),

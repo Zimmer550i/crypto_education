@@ -10,6 +10,8 @@ import 'package:crypto_education/views/screens/auth/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controllers/localization_controller.dart';
+
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
@@ -19,17 +21,28 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   final auth = Get.find<AuthController>();
+  final locale = Get.find<LocalizationController>();
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
   final conPassCtrl = TextEditingController();
 
+  String val = '';
+
   void signUpCallback() async {
+
+    if (locale.locale.languageCode == "de") {
+      val = 'german';
+    } else {
+      val = 'english';
+    }
+
     final message = await auth.signup(
       nameCtrl.text,
       emailCtrl.text,
       passCtrl.text,
       conPassCtrl.text,
+      val
     );
 
     if (message == "success") {
@@ -45,6 +58,7 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(" Language :-> ${locale.locale.languageCode.toString()}");
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

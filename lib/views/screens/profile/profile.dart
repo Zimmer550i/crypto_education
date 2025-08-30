@@ -59,11 +59,11 @@ class Profile extends StatelessWidget {
                     data: "privacy_policies",
                   ),
                 ),
-                ClickableButtonModel(
-                  icon: AppIcons.about,
-                  title: "about_us".tr,
-                  route: Info(title: "about_us".tr, data: "about_us"),
-                ),
+                // ClickableButtonModel(
+                //   icon: AppIcons.about,
+                //   title: "about_us".tr,
+                //   route: Info(title: "about_us".tr, data: "about_us"),
+                // ),
                 ClickableButtonModel(icon: AppIcons.logout, title: "logout".tr),
               ].map((e) {
                 return Padding(

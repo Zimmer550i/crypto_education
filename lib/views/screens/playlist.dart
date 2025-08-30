@@ -25,16 +25,18 @@ class _PlaylistState extends State<Playlist> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((message) {
-      video.getVideos(widget.topic.id.toString(), override: true).then((
-        message,
-      ) {
-        if (message != "success") {
-          customSnackbar("error_occurred".tr, message);
-        }
-      });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      video.videos.clear(); // clear previous videos
+      video.getVideos(widget.topic.id.toString(), override: true).then(
+            (result) {
+          if (result != "success") {
+            customSnackbar("error_occurred".tr, "YYY $result");
+          }
+        },
+      );
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

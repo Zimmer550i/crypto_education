@@ -10,7 +10,15 @@ import 'package:get/get.dart';
 
 class VideoCard extends StatelessWidget {
   final Topic topic;
-  const VideoCard(this.topic, {super.key});
+  final bool? hasImage;
+  final bool? hasCompleted;
+
+  const VideoCard(
+    this.topic, {
+    super.key,
+    this.hasImage = true,
+    this.hasCompleted = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,50 +28,70 @@ class VideoCard extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: AppColors.gray.shade800,
         ),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(8),
-              child: topic.thumbnail == null
-                  ? Container(
-                      height: 68,
-                      width: 104,
-                      color: Colors.white.withValues(alpha: 0.06),
-                      child: Icon(
-                        Icons.video_collection_outlined,
-                        color: Colors.grey,
-                      ),
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: topic.thumbnail!,
-                      fadeInDuration: Duration(),
-                      fadeOutDuration: Duration(),
-                      height: 68,
-                      width: 104,
-                      fit: BoxFit.cover,
-                    ),
-            ),
+            /// Thumbnail
+            hasImage == true
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: topic.thumbnail == null
+                        ? Container(
+                            height: 68,
+                            width: 104,
+                            color: Colors.white.withOpacity(0.06),
+                            child: const Icon(
+                              Icons.video_collection_outlined,
+                              color: Colors.grey,
+                            ),
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: topic.thumbnail!,
+                            fadeInDuration: Duration.zero,
+                            fadeOutDuration: Duration.zero,
+                            height: 68,
+                            width: 104,
+                            fit: BoxFit.cover,
+                          ),
+                  )
+                : SizedBox(),
             const SizedBox(width: 16),
+
+            /// Title & completion text
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(topic.name, style: AppTexts.tmds),
                   Text(
-                    "${topic.completedVideos}/${topic.totalVideos} completed",
-                    style: AppTexts.txsr.copyWith(
-                      color: AppColors.cyan.shade300,
-                    ),
+                    topic.name,
+                    style: AppTexts.tmds,
+                    maxLines: 2, // allow 2 lines max
+                    overflow: TextOverflow.ellipsis, // cut with ...
                   ),
+                  const SizedBox(height: 4),
+                  hasCompleted == true
+                      ? Text(
+                          "${topic.completedVideos}/${topic.totalVideos} completed",
+                          style: AppTexts.txsr.copyWith(
+                            color: AppColors.cyan.shade300,
+                          ),
+                        )
+                      : Text(
+                          "${topic.totalVideos} Videos",
+                          style: AppTexts.txsr.copyWith(
+                            color: AppColors.cyan.shade300,
+                          ),
+                        ),
                 ],
               ),
             ),
-            Spacer(),
+
+            /// Right arrow
+            const SizedBox(width: 8),
             CustomSvg(asset: AppIcons.navArrowRight),
           ],
         ),

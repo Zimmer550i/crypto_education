@@ -14,7 +14,6 @@ import 'package:crypto_education/views/screens/home.dart';
 import 'package:crypto_education/views/screens/notifications.dart';
 import 'package:crypto_education/views/screens/profile/personal_information.dart';
 import 'package:crypto_education/views/screens/profile/profile.dart';
-import 'package:crypto_education/views/screens/videos.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

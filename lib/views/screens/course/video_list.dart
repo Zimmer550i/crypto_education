@@ -1,6 +1,7 @@
 import 'package:crypto_education/controllers/video_controller.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_snackbar.dart';
+// ignore: unused_import
 import 'package:crypto_education/views/base/course_list.dart';
 import 'package:crypto_education/views/base/custom_loading.dart';
 import 'package:crypto_education/views/base/pull_to_refresh.dart';

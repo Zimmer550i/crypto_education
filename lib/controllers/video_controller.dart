@@ -9,7 +9,6 @@ import 'package:crypto_education/services/shared_prefs_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../utils/custom_snackbar.dart';
 
 class VideoController extends GetxController {
   final api = ApiService();

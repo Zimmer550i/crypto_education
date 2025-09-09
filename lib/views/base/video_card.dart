@@ -43,7 +43,7 @@ class VideoCard extends StatelessWidget {
                         ? Container(
                             height: 68,
                             width: 104,
-                            color: Colors.white.withOpacity(0.06),
+                            color: Colors.white.withValues(alpha: 0.06),
                             child: const Icon(
                               Icons.video_collection_outlined,
                               color: Colors.grey,

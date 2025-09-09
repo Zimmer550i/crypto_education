@@ -4,6 +4,7 @@ import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_loading.dart';
 import 'package:crypto_education/views/base/live_card.dart';
+// ignore: unused_import
 import 'package:crypto_education/views/base/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

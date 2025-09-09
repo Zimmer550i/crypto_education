@@ -21,16 +21,22 @@ class SubscriptionPlan extends StatelessWidget {
                 SubscriptionWidget(
                   title: "basic".tr,
                   price: "price_basic".tr,
+                  duration: "month".tr,
                   subTitle: "basic_description".tr,
                   pros: [
-                    "ai_access".tr,
-                    "telegram_group".tr,
-                    "over_150_videos".tr,
+                    "feature_1".tr,
+                    "feature_2".tr,
+                    "feature_3".tr,
+                    "feature_4".tr,
+                    "feature_5".tr,
+                    "feature_6".tr,
+                    "feature_7".tr,
                   ],
                 ),
                 SubscriptionWidget(
                   title: "pro".tr,
                   price: "price_pro".tr,
+                  duration: "year".tr,
                   subTitle: "pro_description".tr,
                   pros: [
                     "everything_in_basic".tr,
@@ -43,6 +49,7 @@ class SubscriptionPlan extends StatelessWidget {
                 SubscriptionWidget(
                   title: "elite".tr,
                   price: "price_elite".tr,
+                  duration: "single_payment".tr,
                   subTitle: "elite_description".tr,
                   pros: [
                     "everything_in_basic".tr,
@@ -52,6 +59,7 @@ class SubscriptionPlan extends StatelessWidget {
                   ],
                   isPremium: true,
                 ),
+                const SizedBox(height: 16),
               ],
             ),
           ),

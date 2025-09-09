@@ -1,11 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:crypto_education/models/topic.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
-import 'package:crypto_education/views/base/video_card.dart';
-import 'package:crypto_education/views/screens/playlist.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

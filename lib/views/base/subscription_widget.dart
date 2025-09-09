@@ -4,11 +4,13 @@ import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SubscriptionWidget extends StatelessWidget {
   final String title;
   final String subTitle;
   final String price;
+  final String duration;
   final List<String> pros;
   final List<String> cons;
   final bool isPurchased;
@@ -18,6 +20,7 @@ class SubscriptionWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.price,
+    required this.duration,
     required this.subTitle,
     this.pros = const [],
     this.cons = const [],
@@ -25,27 +28,6 @@ class SubscriptionWidget extends StatelessWidget {
     this.isPremium = false,
     this.onTap,
   });
-
-  SubscriptionWidget copyWith({
-    String? icon,
-    String? price,
-    String? title,
-    String? subTitle,
-    List<String>? pros,
-    List<String>? cons,
-    bool? isPurchased,
-    Function()? onTap,
-  }) {
-    return SubscriptionWidget(
-      title: title ?? this.title,
-      price: price ?? this.price,
-      subTitle: subTitle ?? this.subTitle,
-      pros: pros ?? this.pros,
-      cons: cons ?? this.cons,
-      isPurchased: isPurchased ?? this.isPurchased,
-      onTap: onTap ?? this.onTap,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +72,7 @@ class SubscriptionWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "/month",
+                      "/$duration",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -125,7 +107,13 @@ class SubscriptionWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 32),
-                CustomButton(text: "Choose Plan", isSecondary: !isPremium),
+                CustomButton(
+                  text: isPurchased ? "current_plan".tr : "choose_plan".tr,
+                  leading: isPurchased ? "assets/icons/tick_circle.svg" : null,
+                  isSecondary: !isPremium,
+                  coloredIcon: isPurchased,
+                  isDisabled: isPurchased,
+                ),
               ],
             ),
           ),

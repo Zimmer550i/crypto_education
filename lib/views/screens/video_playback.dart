@@ -1,3 +1,4 @@
+import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/models/video.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -17,6 +18,20 @@ class VideoPlayback extends StatefulWidget {
 }
 
 class _VideoPlaybackState extends State<VideoPlayback> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (![
+        "basic",
+        "pro",
+        "elite",
+      ].contains(Get.find<UserController>().userInfo.value!.subscription)) {
+        premiumFeatureSheet(context);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

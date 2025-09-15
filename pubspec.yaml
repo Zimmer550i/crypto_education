@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: 'none' 
 
-version: 1.0.0+1
+version: 0.7.0+1
 
 environment:
   sdk: ^3.8.1
@@ -28,6 +28,7 @@ dependencies:
   url_launcher: ^6.3.2
   shimmer: ^3.0.0
   google_sign_in: ^6.3.0
+  purchases_flutter: ^9.6.0
   
 dev_dependencies:
   flutter_test:

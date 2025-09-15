@@ -109,5 +109,8 @@
   "videos": "Videos",
   "chat": "Chat",
   "profile": "Profil",
-  "no_videos": "Derzeit sind keine Videos verfügbar"
+  "no_videos": "Derzeit sind keine Videos verfügbar",
+  "premium_feature": "Sie haben eine Premium-Funktion entdeckt!",
+  "premium_question": "Jetzt Premium abonnieren?",
+  "subscribe": "Abonnieren"
 }

@@ -8,12 +8,14 @@ import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/chat_drawer.dart';
 import 'package:crypto_education/views/base/custom_bottom_navbar.dart';
+import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/profile_picture.dart';
 import 'package:crypto_education/views/screens/chat.dart';
 import 'package:crypto_education/views/screens/home.dart';
 import 'package:crypto_education/views/screens/notifications.dart';
 import 'package:crypto_education/views/screens/profile/personal_information.dart';
 import 'package:crypto_education/views/screens/profile/profile.dart';
+import 'package:crypto_education/views/screens/profile/subscription_plan.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,6 +42,7 @@ class _AppState extends State<App> {
   final chatNameCtrl = TextEditingController();
   final controller = PageController();
   int index = 0;
+  int prevIndex = 0;
 
   @override
   void initState() {
@@ -150,17 +153,96 @@ class _AppState extends State<App> {
       bottomNavigationBar: CustomBottomNavbar(
         index: index,
         onChanged: (val) {
-          final temp = index;
+          prevIndex = index;
           setState(() {
             index = val;
           });
           controller.animateToPage(
             index,
-            duration: Duration(milliseconds: (temp - index).abs() * 100),
+            duration: Duration(milliseconds: (prevIndex - index).abs() * 100),
             curve: Curves.easeOut,
           );
+          if (index == 2 &&
+              !["basic", "pro", "elite"].contains(
+                Get.find<UserController>().userInfo.value!.subscription,
+              )) {
+            premiumFeatureSheet(context);
+          }
         },
       ),
+    );
+  }
+
+  Future<dynamic> premiumFeatureSheet(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      enableDrag: false, 
+      backgroundColor: AppColors.black,
+      builder: (_) {
+        return SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(width: 0.5, color: AppColors.cyan),
+              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 75),
+                Text(
+                  "premium_feature".tr,
+                  textAlign: TextAlign.center,
+                  style: AppTexts.tmdr.copyWith(color: AppColors.gray),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "premium_question".tr,
+                  style: AppTexts.txls.copyWith(color: AppColors.cyan),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const SizedBox(width: 40),
+                    Expanded(
+                      child: CustomButton(
+                        text: "cancel".tr,
+                        isSecondary: true,
+                        onTap: () async {
+                          Get.back();
+                          controller.animateToPage(
+                            prevIndex,
+                            duration: Duration(
+                              milliseconds: (prevIndex - index).abs() * 100,
+                            ),
+                            curve: Curves.easeOut,
+                          );
+                          setState(() {
+                            index = prevIndex;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 18),
+                    Expanded(
+                      child: CustomButton(
+                        text: "subscribe".tr,
+                        onTap: () {
+                          Get.to(() => SubscriptionPlan());
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 40),
+                  ],
+                ),
+                const SizedBox(height: 48),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

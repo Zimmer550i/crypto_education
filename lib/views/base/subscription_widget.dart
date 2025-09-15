@@ -98,9 +98,11 @@ class SubscriptionWidget extends StatelessWidget {
                         children: [
                           CustomSvg(asset: AppIcons.tickCircle),
                           const SizedBox(width: 8),
-                          Text(
-                            pros[i],
-                            style: AppTexts.tmdr.copyWith(color: Colors.white),
+                          Expanded(
+                            child: Text(
+                              pros[i],
+                              style: AppTexts.tmdr.copyWith(color: Colors.white),
+                            ),
                           ),
                         ],
                       ),
@@ -108,6 +110,7 @@ class SubscriptionWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 CustomButton(
+                  onTap: onTap,
                   text: isPurchased ? "current_plan".tr : "choose_plan".tr,
                   leading: isPurchased ? "assets/icons/tick_circle.svg" : null,
                   isSecondary: !isPremium,

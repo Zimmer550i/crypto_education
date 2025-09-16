@@ -15,6 +15,7 @@ class SubscriptionWidget extends StatelessWidget {
   final List<String> cons;
   final bool isPurchased;
   final bool isPremium;
+  final bool isLoading;
   final Function()? onTap;
   const SubscriptionWidget({
     super.key,
@@ -26,6 +27,7 @@ class SubscriptionWidget extends StatelessWidget {
     this.cons = const [],
     this.isPurchased = false,
     this.isPremium = false,
+    this.isLoading = false,
     this.onTap,
   });
 
@@ -101,7 +103,9 @@ class SubscriptionWidget extends StatelessWidget {
                           Expanded(
                             child: Text(
                               pros[i],
-                              style: AppTexts.tmdr.copyWith(color: Colors.white),
+                              style: AppTexts.tmdr.copyWith(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
@@ -116,6 +120,7 @@ class SubscriptionWidget extends StatelessWidget {
                   isSecondary: !isPremium,
                   coloredIcon: isPurchased,
                   isDisabled: isPurchased,
+                  isLoading: isLoading,
                 ),
               ],
             ),

@@ -17,6 +17,7 @@ class SubscriptionPlan extends StatefulWidget {
 
 class _SubscriptionPlanState extends State<SubscriptionPlan> {
   final user = Get.find<UserController>();
+  String? loading;
 
   @override
   void initState() {
@@ -29,7 +30,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
 
     if (Platform.isAndroid) {
       await Purchases.configure(
-        PurchasesConfiguration("goog_xmILfTdnQjSvLskLSoWPBlTgisW"),
+        PurchasesConfiguration("goog_LZnVLHXKpkcDdHiRplUOyTONmos"),
       );
     } else if (Platform.isIOS) {
       await Purchases.configure(
@@ -66,8 +67,9 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                   ],
                   isPurchased: user.userInfo.value!.subscription == "basic",
                   onTap: () async {
-                    makePayment("Basic");
+                    makePayment("\$rc_monthly");
                   },
+                  isLoading: loading == "\$rc_monthly",
                 ),
                 SubscriptionWidget(
                   title: "pro".tr,
@@ -83,8 +85,9 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                   isPurchased: user.userInfo.value!.subscription == "pro",
                   isPremium: true,
                   onTap: () async {
-                    makePayment("Pro");
+                    makePayment("\$rc_yearly");
                   },
+                  isLoading: loading == "\$rc_yearly",
                 ),
                 // SubscriptionWidget(
                 //   title: "elite".tr,
@@ -109,6 +112,9 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
   }
 
   void makePayment(String packageName) async {
+    setState(() {
+      loading = packageName;
+    });
     try {
       final offerings = await Purchases.getOfferings();
       debugPrint(offerings.toString());
@@ -122,6 +128,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
           await Purchases.logIn(user.userInfo.value!.email);
           final appUserID = await Purchases.appUserID;
           debugPrint("Paid user: $appUserID");
+          // ignore: deprecated_member_use
           await Purchases.purchasePackage(package);
 
           user.getInfo().then((message) {
@@ -137,11 +144,17 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
           if (Navigator.canPop(context)) {
             Get.back();
           }
+        } else {
+          customSnackbar("Error", "Something went wrong. Please try again.");
         }
       }
     } catch (e) {
       debugPrint(e.toString());
       customSnackbar("Error", "Something went wrong. Please try again.");
+    } finally {
+      setState(() {
+        loading = null;
+      });
     }
   }
 }

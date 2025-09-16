@@ -34,7 +34,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
       );
     } else if (Platform.isIOS) {
       await Purchases.configure(
-        PurchasesConfiguration("PLACE APPLE API KEY HERE"),
+        PurchasesConfiguration("appl_XseBaUUEITapypSDNQpkDUjzbNT"),
       );
     }
   }

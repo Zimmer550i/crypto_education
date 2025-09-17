@@ -133,7 +133,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
 
           user.getInfo().then((message) {
             if (message == "success" &&
-                user.userInfo.value!.subscription == "success") {
+                user.userInfo.value!.subscription == "free") {
               customSnackbar(
                 "Payment Successful",
                 "You have successfully purchased the $packageName Package",

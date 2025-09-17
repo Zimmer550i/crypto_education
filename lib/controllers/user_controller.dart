@@ -81,7 +81,7 @@ class UserController extends GetxController {
   ) async {
     isLoading.value = true;
     try {
-      final response = await api.post("/api-auth/change_password/", {
+      final response = await api.post("api/v1/api-auth/change_password/", {
         "old_password": oldPass,
         "new_password": newPass,
         "confirm_password": conPass,
@@ -93,6 +93,28 @@ class UserController extends GetxController {
       } else {
         isLoading.value = false;
         return jsonDecode(response.body)['message'] ?? "Connection Error";
+      }
+    } catch (e) {
+      isLoading.value = false;
+      return "Unexpected error: ${e.toString()}";
+    }
+  }
+
+  Future<String> changeLanguage(String language) async {
+    isLoading.value = true;
+    try {
+      final response = await api.patch("/api/v1/auth/user_profile/", {
+        "language": language,
+      }, authReq: true);
+      final body = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        setInfo(body['data']);
+        isLoading.value = false;
+        return "success";
+      } else {
+        isLoading.value = false;
+        return body['message'] ?? "Connection Error";
       }
     } catch (e) {
       isLoading.value = false;
@@ -131,7 +153,7 @@ class UserController extends GetxController {
           settingsInfo[endpointData] = body['data'].first['content'] ?? '';
         } else {
           settingsInfo[endpointData] =
-          "<p style=\"color: red; text-align: center;\">No data found</p>";
+              "<p style=\"color: red; text-align: center;\">No data found</p>";
         }
         return "success";
       } else {
@@ -143,7 +165,6 @@ class UserController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   Future<String> _getNotifications() async {
     try {

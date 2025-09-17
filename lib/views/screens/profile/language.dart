@@ -1,4 +1,6 @@
 import 'package:crypto_education/controllers/localization_controller.dart';
+import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/custom_radio_button.dart';
@@ -14,6 +16,7 @@ class Language extends StatefulWidget {
 
 class _LanguageState extends State<Language> {
   final locale = Get.find<LocalizationController>();
+  final user = Get.find<UserController>();
 
   int selected = 0;
 
@@ -25,6 +28,26 @@ class _LanguageState extends State<Language> {
       selected = 1;
     } else {
       selected = 0;
+    }
+  }
+
+  void changeLanguage() async {
+    String language = selected == 0 ? "english" : "german";
+
+    if (selected == 0) {
+      locale.setLanguage(Locale.fromSubtags(languageCode: "en"));
+    } else {
+      locale.setLanguage(Locale.fromSubtags(languageCode: "de"));
+    }
+
+    final message = await user.changeLanguage(language);
+
+    if (message == "success") {
+      if (mounted) {
+        Get.back();
+      }
+    } else {
+      customSnackbar("error_occurred".tr, message);
     }
   }
 
@@ -42,8 +65,10 @@ class _LanguageState extends State<Language> {
                 value: selected == 0,
                 title: "English",
                 onClick: () {
-                  selected = 0;
-                  locale.setLanguage(Locale.fromSubtags(languageCode: "en"));
+                  setState(() {
+                    selected = 0;
+                  });
+                  // locale.setLanguage(Locale.fromSubtags(languageCode: "en"));
                 },
               ),
               const SizedBox(height: 16),
@@ -51,16 +76,19 @@ class _LanguageState extends State<Language> {
                 value: selected == 1,
                 title: "Deutsch",
                 onClick: () {
-                  selected = 1;
-                  locale.setLanguage(Locale.fromSubtags(languageCode: "de"));
+                  setState(() {
+                    selected = 1;
+                  });
+                  // locale.setLanguage(Locale.fromSubtags(languageCode: "de"));
                 },
               ),
               Spacer(),
-              CustomButton(
-                text: "confirm".tr,
-                onTap: () {
-                  Get.back();
-                },
+              Obx(
+                () => CustomButton(
+                  text: "confirm".tr,
+                  isLoading: user.isLoading.value,
+                  onTap: changeLanguage,
+                ),
               ),
               const SizedBox(height: 20),
             ],

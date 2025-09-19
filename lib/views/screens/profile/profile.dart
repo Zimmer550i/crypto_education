@@ -7,6 +7,7 @@ import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_svg.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
+import 'package:crypto_education/views/screens/profile/account_deletation.dart';
 import 'package:crypto_education/views/screens/profile/info.dart';
 import 'package:crypto_education/views/screens/profile/language.dart';
 import 'package:crypto_education/views/screens/profile/personal_information.dart';
@@ -58,6 +59,11 @@ class Profile extends StatelessWidget {
                     title: "privacy_policy".tr,
                     data: "privacy_policies",
                   ),
+                ),
+                ClickableButtonModel(
+                  icon: AppIcons.accountDeletation,
+                  title: "account_deletion_title".tr,
+                  route: AccountDeletation(),
                 ),
                 // ClickableButtonModel(
                 //   icon: AppIcons.about,

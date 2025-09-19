@@ -184,6 +184,26 @@ class UserController extends GetxController {
     purchaseInitialized(true);
   }
 
+  Future<String> deleteUserAccount() async {
+    isLoading.value = true;
+    try {
+      final response = await api.delete(
+        "/api/v1/auth/user_details/${userInfo.value!.userId}",
+        authReq: true,
+      );
+
+      if (response.statusCode == 200) {
+        return "success";
+      } else {
+        return jsonDecode(response.body)['message'] ?? "Connection Error";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    } finally {
+      isLoading(false);
+    }
+  }
+
   String? getImageUrl() {
     if (userInfo.value == null || userInfo.value!.image == null) {
       return null;

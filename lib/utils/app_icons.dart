@@ -40,4 +40,5 @@ class AppIcons {
   static const String rename = 'assets/icons/rename.svg';
   static const String settings = 'assets/icons/settings.svg';
   static const String terms = 'assets/icons/terms.svg';
+  static const String accountDeletation = 'assets/icons/account_deletation.svg';
 }

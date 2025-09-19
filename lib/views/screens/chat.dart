@@ -1,7 +1,6 @@
 import 'package:crypto_education/controllers/chat_controller.dart';
 import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/models/video.dart';
-import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -141,9 +140,7 @@ class _ChatState extends State<Chat> {
         ),
         if (isSender)
           ProfilePicture(
-            image: ApiService.getImgUrl(
-              Get.find<UserController>().userInfo.value?.image,
-            ),
+            image: Get.find<UserController>().userInfo.value?.image,
             size: 40,
           ),
       ],

@@ -1,5 +1,4 @@
 import 'package:crypto_education/controllers/user_controller.dart';
-import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -31,11 +30,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-              Align(
-                child: ProfilePicture(
-                  image: ApiService.getImgUrl(user.userInfo.value?.image),
-                ),
-              ),
+              Align(child: ProfilePicture(image: user.userInfo.value?.image)),
               const SizedBox(height: 32),
               Text(
                 "name".tr,

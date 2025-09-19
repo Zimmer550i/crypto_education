@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:crypto_education/controllers/user_controller.dart';
-import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
 import 'package:crypto_education/views/base/custom_button.dart';
@@ -56,7 +55,7 @@ class _EditPersonalInformationState extends State<EditPersonalInformation> {
             const SizedBox(height: 24),
             Align(
               child: ProfilePicture(
-                image: ApiService.getImgUrl(user.userInfo.value?.image),
+                image: user.userInfo.value?.image,
                 imageFile: _image,
                 isEditable: true,
                 imagePickerCallback: (val) {

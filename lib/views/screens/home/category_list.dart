@@ -31,7 +31,7 @@ class _CategoryListState extends State<CategoryList> {
       // clear old data before fetching new
       video.topics.clear();
 
-      video.getCategory(id: widget.course.id).then((message) {
+      video.getCategory(id: widget.course.id, override: true).then((message) {
         if (message != "success") {
           customSnackbar("error_occurred".tr, message);
         }

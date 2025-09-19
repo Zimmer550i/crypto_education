@@ -5,7 +5,7 @@ class User {
   final String? image; 
   final String role;
   final String language;
-  final String subscription;
+  String subscription;
   final String? googleId;
   final Map<String, dynamic> videosProgress;
   final bool isActive;

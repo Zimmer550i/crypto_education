@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:get/get.dart';
 import 'package:crypto_education/models/notification.dart';
 import 'package:crypto_education/models/user.dart';
 import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/services/shared_prefs_service.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class UserController extends GetxController {
   final userInfo = Rxn<User>();
@@ -16,6 +18,7 @@ class UserController extends GetxController {
   final notificationRefreshTime = Duration(minutes: 10);
   final RxMap<String, String?> settingsInfo = RxMap();
 
+  RxBool purchaseInitialized = RxBool(false);
   RxBool isLoading = RxBool(false);
   Timer? _notificationTimer;
 
@@ -120,6 +123,65 @@ class UserController extends GetxController {
       isLoading.value = false;
       return "Unexpected error: ${e.toString()}";
     }
+  }
+
+  Future<String> updatePlan() async {
+    while (!purchaseInitialized.value) {
+      await initPurchase();
+    }
+    try {
+      String? planName;
+      DateTime? expiration;
+      await Purchases.getCustomerInfo().then((customerInfo) {
+        final entitlement = customerInfo.entitlements.active;
+        if (entitlement.keys.contains("basic_user")) {
+          planName = "basic";
+          expiration = DateTime.parse(
+            entitlement['basic_user']!.expirationDate!,
+          );
+        } else if (entitlement.keys.contains("pro_user")) {
+          planName = "pro";
+          expiration = DateTime.parse(entitlement['pro_user']!.expirationDate!);
+        }
+      });
+
+      if (planName == null || expiration == null) {
+        throw "User is not subscribed";
+      }
+
+      final response = await api.post(
+        "/api/v1/subscriptions/add_subscription/",
+        {"package_name": planName, "expired_on": expiration!.toIso8601String()},
+        authReq: true,
+      );
+      final body = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        userInfo.value!.subscription = planName!;
+        return "success";
+      } else {
+        return body['message'] ?? "Connection Error";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    }
+  }
+
+  Future<void> initPurchase() async {
+    await Purchases.setLogLevel(LogLevel.debug);
+
+    if (Platform.isAndroid) {
+      await Purchases.configure(
+        PurchasesConfiguration("goog_LZnVLHXKpkcDdHiRplUOyTONmos"),
+      );
+    } else if (Platform.isIOS) {
+      await Purchases.configure(
+        PurchasesConfiguration("appl_XseBaUUEITapypSDNQpkDUjzbNT"),
+      );
+    }
+
+    await Purchases.logIn(userInfo.value!.email);
+    purchaseInitialized(true);
   }
 
   String? getImageUrl() {

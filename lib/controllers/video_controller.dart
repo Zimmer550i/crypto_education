@@ -56,7 +56,7 @@ class VideoController extends GetxController {
     isLoading(true);
     try {
       final response = await SharedPrefsService().cacheResponse(
-        key: "topics_$id",
+        key: "courses_$id",
         frequency: CacheFrequency.oneHour,
         override: override,
         fetchCallback: () =>
@@ -111,7 +111,7 @@ class VideoController extends GetxController {
     isLoading(true);
     try {
       final response = await SharedPrefsService().cacheResponse(
-        key: id.toString(),
+        key: "videos_$id",
         frequency: CacheFrequency.sixHours,
         override: override,
         fetchCallback: () =>

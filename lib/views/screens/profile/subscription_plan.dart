@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
@@ -18,26 +16,6 @@ class SubscriptionPlan extends StatefulWidget {
 class _SubscriptionPlanState extends State<SubscriptionPlan> {
   final user = Get.find<UserController>();
   String? loading;
-
-  @override
-  void initState() {
-    super.initState();
-    initPurchase();
-  }
-
-  void initPurchase() async {
-    await Purchases.setLogLevel(LogLevel.debug);
-
-    if (Platform.isAndroid) {
-      await Purchases.configure(
-        PurchasesConfiguration("goog_LZnVLHXKpkcDdHiRplUOyTONmos"),
-      );
-    } else if (Platform.isIOS) {
-      await Purchases.configure(
-        PurchasesConfiguration("appl_XseBaUUEITapypSDNQpkDUjzbNT"),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +63,9 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                   isPurchased: user.userInfo.value!.subscription == "pro",
                   isPremium: true,
                   onTap: () async {
-                    makePayment("\$rc_yearly");
+                    makePayment("\$rc_annual");
                   },
-                  isLoading: loading == "\$rc_yearly",
+                  isLoading: loading == "\$rc_annual",
                 ),
                 // SubscriptionWidget(
                 //   title: "elite".tr,
@@ -115,31 +93,23 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     setState(() {
       loading = packageName;
     });
+    if (!user.purchaseInitialized.value) {
+      await user.initPurchase();
+    }
     try {
       final offerings = await Purchases.getOfferings();
-      debugPrint(offerings.toString());
       final offering = offerings.getOffering("Default");
-      debugPrint(offering.toString());
       if (offering != null) {
         final package = offering.getPackage(packageName);
-        debugPrint(package.toString());
-
         if (package != null) {
-          await Purchases.logIn(user.userInfo.value!.email);
-          final appUserID = await Purchases.appUserID;
-          debugPrint("Paid user: $appUserID");
           // ignore: deprecated_member_use
           await Purchases.purchasePackage(package);
-
-          user.getInfo().then((message) {
-            if (message == "success" &&
-                user.userInfo.value!.subscription != "free") {
-              customSnackbar(
-                "Payment Successful",
-                "You have successfully purchased the $packageName Package",
-              );
+          await user.updatePlan().then((message) {
+            if (message == "success") {
+              customSnackbar("Payment Successful", "You have been Subscribed");
             }
           });
+
           // ignore: use_build_context_synchronously
           if (Navigator.canPop(context)) {
             Get.back();

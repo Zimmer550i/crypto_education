@@ -1,6 +1,5 @@
 import 'package:crypto_education/controllers/chat_controller.dart';
 import 'package:crypto_education/controllers/user_controller.dart';
-import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
 import 'package:crypto_education/utils/app_texts.dart';
@@ -82,9 +81,7 @@ class _AppState extends State<App> {
                       child: Row(
                         children: [
                           ProfilePicture(
-                            image: ApiService.getImgUrl(
-                              user.userInfo.value?.image,
-                            ),
+                            image: user.userInfo.value?.image,
                             size: 44,
                           ),
                           const SizedBox(width: 8),
@@ -177,7 +174,7 @@ class _AppState extends State<App> {
     return showModalBottomSheet(
       context: context,
       isDismissible: false,
-      enableDrag: false, 
+      enableDrag: false,
       backgroundColor: AppColors.black,
       builder: (_) {
         return SafeArea(

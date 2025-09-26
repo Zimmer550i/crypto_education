@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:crypto_education/controllers/auth_controller.dart';
 import 'package:crypto_education/utils/app_colors.dart';
 import 'package:crypto_education/utils/app_icons.dart';
@@ -116,19 +118,33 @@ class _SigninState extends State<Signin> {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  CustomButton(
-                    onTap: () => auth.googleLogin().then((message) {
-                      if (message == "success") {
-                        Get.offAll(() => App());
-                      } else {
-                        customSnackbar("error_occurred".tr, message);
-                      }
-                    }),
-                    text: "login_with_google".tr,
-                    isSecondary: true,
-                    leading: AppIcons.google,
-                    coloredIcon: true,
-                  ),
+                  if (Platform.isAndroid)
+                    CustomButton(
+                      onTap: () => auth.googleLogin().then((message) {
+                        if (message == "success") {
+                          Get.offAll(() => App());
+                        } else {
+                          customSnackbar("error_occurred".tr, message);
+                        }
+                      }),
+                      text: "login_with_google".tr,
+                      isSecondary: true,
+                      leading: AppIcons.google,
+                      coloredIcon: true,
+                    ),
+                  if (Platform.isIOS)
+                    CustomButton(
+                      onTap: () => auth.appleLogin().then((message) {
+                        if (message == "success") {
+                          Get.offAll(() => App());
+                        } else {
+                          customSnackbar("error_occurred".tr, message);
+                        }
+                      }),
+                      text: "login_with_apple".tr,
+                      isSecondary: true,
+                      leading: AppIcons.apple,
+                    ),
                   const SizedBox(height: 24),
                   Row(
                     spacing: 4,

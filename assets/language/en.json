@@ -19,7 +19,8 @@
   "forgot_password_question": "Forgot Password?",
   "sign_in": "Sign In",
   "or": "Or",
-  "login_with_google": "Login With Google",
+  "login_with_google": "Login with Google",
+  "login_with_apple": "Login with Apple",
   "dont_have_account": "Don't have an account?",
   "sign_up": "Sign Up",
   "set_up_account": "Set Up Your Account",
@@ -132,5 +133,6 @@
   "your_account_will_be": "Your account will be",
   "deleted": "Deleted",
   "sure_button": "Sure",
-  "go_back_button": "Go Back"
+  "go_back_button": "Go Back",
+  "apple_policy": "Payment will be charged to your Apple ID account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current billing period. You can manage or cancel your subscription in your App Store account settings."
 }

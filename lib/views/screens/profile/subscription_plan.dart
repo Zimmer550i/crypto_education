@@ -1,7 +1,10 @@
 import 'package:crypto_education/controllers/user_controller.dart';
+import 'package:crypto_education/utils/app_texts.dart';
 import 'package:crypto_education/utils/custom_snackbar.dart';
 import 'package:crypto_education/views/base/custom_app_bar.dart';
+import 'package:crypto_education/views/base/custom_button.dart';
 import 'package:crypto_education/views/base/subscription_widget.dart';
+import 'package:crypto_education/views/screens/profile/info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -80,7 +83,50 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                 //   ],
                 //   isPremium: true,
                 // ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
+
+                Text(
+                  "apple_policy".tr,
+                  style: AppTexts.tmdr,
+                  textAlign: TextAlign.center,
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        padding: 0,
+                        onTap: () {
+                          Get.to(
+                            () => Info(
+                              title: "privacy_policy".tr,
+                              data: "privacy_policies",
+                            ),
+                          );
+                        },
+                        text: "privacy_policy".tr,
+                        isSecondary: true,
+                      ),
+                    ),
+                    const SizedBox(width: 8,),
+                    Expanded(
+                      child: CustomButton(
+                        padding: 0,
+                        onTap: () {
+                          Get.to(
+                            () => Info(
+                              title: "terms_of_service".tr,
+                              data: "terms_conditions",
+                            ),
+                          );
+                        },
+                        text: "terms_of_service".tr,
+                        isSecondary: true,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

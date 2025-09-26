@@ -6,6 +6,7 @@ import 'package:crypto_education/controllers/user_controller.dart';
 import 'package:crypto_education/services/api_service.dart';
 import 'package:crypto_education/services/shared_prefs_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
   RxBool isLoggedIn = RxBool(false);
@@ -36,6 +37,40 @@ class AuthController extends GetxController {
         }
       } else {
         return "Google Sign in failed.";
+      }
+    } catch (e) {
+      return "Unexpected error: ${e.toString()}";
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<String> appleLogin() async {
+    isLoading(true);
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      if (credential.identityToken != null) {
+        final response = await api.post("/api/v1/auth/apple_login/", {
+          "identity_token": credential.identityToken,
+        });
+
+        var body = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          Get.find<UserController>().setInfo(body['user']);
+          setToken(body['access']);
+          return "success";
+        } else {
+          return body['message'] ?? "Connection Error";
+        }
+      } else {
+        return "Apple Sign in failed.";
       }
     } catch (e) {
       return "Unexpected error: ${e.toString()}";

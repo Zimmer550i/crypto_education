@@ -84,13 +84,14 @@ class ProfilePicture extends StatelessWidget {
                     fit: BoxFit.cover,
                   )
                 : Container(
-                    width: size,
-                    height: size,
-                    padding: EdgeInsets.all(size * 0.17),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.cyan[300]!),
-                    ),
+                  width: size,
+                  height: size,
+                  padding: EdgeInsets.all(size * 0.17),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.cyan[300]!),
+                  ),
+                  child: FittedBox(
                     child: Center(
                       child: SvgPicture.asset(
                         AppIcons.user,
@@ -101,6 +102,7 @@ class ProfilePicture extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
           ),
           if (isEditable)
             Positioned(

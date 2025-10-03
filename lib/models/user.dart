@@ -11,8 +11,8 @@ class User {
   final bool isActive;
   final bool isStaff;
   final bool isSuperuser;
-  final String otp;
-  final DateTime otpExpired;
+  final String? otp;
+  final DateTime? otpExpired;
   final DateTime dateJoined;
   final DateTime lastLogin;
 
@@ -29,8 +29,8 @@ class User {
     required this.isActive,
     required this.isStaff,
     required this.isSuperuser,
-    required this.otp,
-    required this.otpExpired,
+    this.otp,
+    this.otpExpired,
     required this.dateJoined,
     required this.lastLogin,
   });
@@ -50,7 +50,7 @@ class User {
       isStaff: json['is_staff'],
       isSuperuser: json['is_superuser'],
       otp: json['otp'],
-      otpExpired: DateTime.parse(json['otp_expired']),
+      otpExpired: json['otp_expired'] != null ? DateTime.parse(json['otp_expired']) : null,
       dateJoined: DateTime.parse(json['date_joined']),
       lastLogin: DateTime.parse(json['last_login']),
     );
@@ -71,7 +71,7 @@ class User {
       'is_staff': isStaff,
       'is_superuser': isSuperuser,
       'otp': otp,
-      'otp_expired': otpExpired.toIso8601String(),
+      'otp_expired': otpExpired?.toIso8601String(),
       'date_joined': dateJoined.toIso8601String(),
       'last_login': lastLogin.toIso8601String(),
     };

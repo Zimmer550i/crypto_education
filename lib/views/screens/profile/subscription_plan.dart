@@ -108,7 +108,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                         isSecondary: true,
                       ),
                     ),
-                    const SizedBox(width: 8,),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: CustomButton(
                         padding: 0,
@@ -126,6 +126,13 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 0),
+                CustomButton(
+                  onTap: restorePurchases,
+                  text: "Restore Purchases",
+                  isLoading: loading == "restore",
+                  trailing: "assets/icons/reload.svg",
+                ),
                 const SizedBox(height: 20),
               ],
             ),
@@ -135,7 +142,47 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     );
   }
 
+  void restorePurchases() async {
+    if (loading != null) {
+      return;
+    }
+    setState(() {
+      loading = "restore";
+    });
+    try {
+      if (!user.purchaseInitialized.value) {
+        await user.initPurchase();
+      }
+      // Call RevenueCat restore
+      final restoredInfo = await Purchases.restorePurchases();
+
+      if (restoredInfo.activeSubscriptions.isNotEmpty) {
+        // Update user plan on backend
+        await user.updatePlan().then((message) {
+          if (message == "success") {
+            customSnackbar(
+              "Restore Successful",
+              "Your purchases have been restored.",
+            );
+          }
+        });
+      } else {
+        customSnackbar("No Purchases", "No previous purchases were found.");
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      customSnackbar("Error", "Failed to restore purchases. Please try again.");
+    } finally {
+      setState(() {
+        loading = null;
+      });
+    }
+  }
+
   void makePayment(String packageName) async {
+    if (loading != null) {
+      return;
+    }
     setState(() {
       loading = packageName;
     });

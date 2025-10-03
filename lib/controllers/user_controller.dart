@@ -48,6 +48,7 @@ class UserController extends GetxController {
   void setInfo(Map<String, dynamic>? json) {
     if (json != null) {
       userInfo.value = User.fromJson(json);
+      updatePlan();
     }
 
     if (_notificationTimer == null) {
@@ -146,12 +147,12 @@ class UserController extends GetxController {
       });
 
       if (planName == null || expiration == null) {
-        throw "User is not subscribed";
+        planName = "free";
       }
 
       final response = await api.post(
         "/api/v1/subscriptions/add_subscription/",
-        {"package_name": planName, "expired_on": expiration!.toIso8601String()},
+        {"package_name": planName, "expired_on": expiration?.toIso8601String()},
         authReq: true,
       );
       final body = jsonDecode(response.body);

@@ -20,12 +20,15 @@
     "_applicationInternalID" : "6752632864",
     "_developerTeamID" : "9F92NY2G6Y",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 781171306.85265005,
+    "_lastSynchronizedDate" : 781247496.56786096,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
       {
-        "current" : null,
+        "current" : {
+          "index" : 2,
+          "type" : "generic"
+        },
         "enabled" : false,
         "name" : "Load Products"
       },

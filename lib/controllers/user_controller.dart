@@ -18,6 +18,7 @@ class UserController extends GetxController {
   final notificationRefreshTime = Duration(minutes: 10);
   final RxMap<String, String?> settingsInfo = RxMap();
 
+  CustomerInfo? _customerInfo;
   RxBool purchaseInitialized = RxBool(false);
   RxBool isLoading = RxBool(false);
   Timer? _notificationTimer;
@@ -48,7 +49,6 @@ class UserController extends GetxController {
   void setInfo(Map<String, dynamic>? json) {
     if (json != null) {
       userInfo.value = User.fromJson(json);
-      updatePlan();
     }
 
     if (_notificationTimer == null) {
@@ -127,27 +127,26 @@ class UserController extends GetxController {
   }
 
   Future<String> updatePlan() async {
-    while (!purchaseInitialized.value) {
+    if (!purchaseInitialized.value) {
       await initPurchase();
+    }
+    if (userInfo.value!.subscription == "elite") {
+      return "success";
     }
     try {
       String? planName;
       DateTime? expiration;
-      await Purchases.getCustomerInfo().then((customerInfo) {
-        final entitlement = customerInfo.entitlements.active;
-        if (entitlement.keys.contains("basic_user")) {
+      if (_customerInfo != null) {
+        final entitlement = _customerInfo!.entitlements.all;
+        if (entitlement.keys.contains("pro_user")) {
+          planName = "pro";
+          expiration = DateTime.parse(entitlement['pro_user']!.expirationDate!);
+        } else if (entitlement.keys.contains("basic_user")) {
           planName = "basic";
           expiration = DateTime.parse(
             entitlement['basic_user']!.expirationDate!,
           );
-        } else if (entitlement.keys.contains("pro_user")) {
-          planName = "pro";
-          expiration = DateTime.parse(entitlement['pro_user']!.expirationDate!);
         }
-      });
-
-      if (planName == null || expiration == null) {
-        planName = "free";
       }
 
       final response = await api.post(
@@ -182,6 +181,10 @@ class UserController extends GetxController {
     }
 
     await Purchases.logIn(userInfo.value!.email);
+    Purchases.addCustomerInfoUpdateListener((customerInfo) async {
+      _customerInfo = customerInfo;
+      updatePlan();
+    });
     purchaseInitialized(true);
   }
 

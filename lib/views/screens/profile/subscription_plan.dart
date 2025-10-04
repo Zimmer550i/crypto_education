@@ -154,7 +154,9 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
         await user.initPurchase();
       }
       // Call RevenueCat restore
+      await Purchases.invalidateCustomerInfoCache();
       final restoredInfo = await Purchases.restorePurchases();
+      await Purchases.invalidateCustomerInfoCache();
 
       if (restoredInfo.activeSubscriptions.isNotEmpty) {
         // Update user plan on backend
@@ -202,11 +204,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
               customSnackbar("Payment Successful", "You have been Subscribed");
             }
           });
-
-          // ignore: use_build_context_synchronously
-          if (Navigator.canPop(context)) {
-            Get.back();
-          }
         } else {
           customSnackbar("Error", "Something went wrong. Please try again.");
         }

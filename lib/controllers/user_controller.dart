@@ -18,7 +18,6 @@ class UserController extends GetxController {
   final notificationRefreshTime = Duration(minutes: 10);
   final RxMap<String, String?> settingsInfo = RxMap();
 
-  CustomerInfo? _customerInfo;
   RxBool purchaseInitialized = RxBool(false);
   RxBool isLoading = RxBool(false);
   Timer? _notificationTimer;
@@ -126,7 +125,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<String> updatePlan() async {
+  Future<String> updatePlan(String planName) async {
     if (!purchaseInitialized.value) {
       await initPurchase();
     }
@@ -134,30 +133,15 @@ class UserController extends GetxController {
       return "success";
     }
     try {
-      String? planName;
-      DateTime? expiration;
-      if (_customerInfo != null) {
-        final entitlement = _customerInfo!.entitlements.all;
-        if (entitlement.keys.contains("pro_user")) {
-          planName = "pro";
-          expiration = DateTime.parse(entitlement['pro_user']!.expirationDate!);
-        } else if (entitlement.keys.contains("basic_user")) {
-          planName = "basic";
-          expiration = DateTime.parse(
-            entitlement['basic_user']!.expirationDate!,
-          );
-        }
-      }
-
       final response = await api.post(
         "/api/v1/subscriptions/add_subscription/",
-        {"package_name": planName, "expired_on": expiration?.toIso8601String()},
+        {"package_name": planName,},
         authReq: true,
       );
       final body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        userInfo.value!.subscription = planName!;
+        userInfo.value!.subscription = planName;
         return "success";
       } else {
         return body['message'] ?? "Connection Error";
@@ -181,10 +165,10 @@ class UserController extends GetxController {
     }
 
     await Purchases.logIn(userInfo.value!.email);
-    Purchases.addCustomerInfoUpdateListener((customerInfo) async {
-      _customerInfo = customerInfo;
-      updatePlan();
-    });
+    // Purchases.addCustomerInfoUpdateListener((customerInfo) async {
+    //   _customerInfo = customerInfo;
+    //   updatePlan();
+    // });
     purchaseInitialized(true);
   }
 

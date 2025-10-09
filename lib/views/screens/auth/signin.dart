@@ -118,6 +118,7 @@ class _SigninState extends State<Signin> {
                     ],
                   ),
                   const SizedBox(height: 24),
+
                   if (Platform.isAndroid)
                     CustomButton(
                       onTap: () => auth.googleLogin().then((message) {
@@ -145,6 +146,7 @@ class _SigninState extends State<Signin> {
                       isSecondary: true,
                       leading: AppIcons.apple,
                     ),
+
                   const SizedBox(height: 24),
                   Row(
                     spacing: 4,

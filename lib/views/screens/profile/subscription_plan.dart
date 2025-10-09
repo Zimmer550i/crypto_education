@@ -21,6 +21,15 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
   String? loading;
 
   @override
+  void initState() {
+    super.initState();
+
+    if (!user.purchaseInitialized.value) {
+      user.initPurchase();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: "subscription_plan".tr),
@@ -128,7 +137,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                 ),
                 const SizedBox(height: 0),
                 CustomButton(
-                  onTap: restorePurchases,
+                  // onTap: restorePurchases,
                   text: "Restore Purchases",
                   isLoading: loading == "restore",
                   trailing: "assets/icons/reload.svg",
@@ -142,44 +151,44 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     );
   }
 
-  void restorePurchases() async {
-    if (loading != null) {
-      return;
-    }
-    setState(() {
-      loading = "restore";
-    });
-    try {
-      if (!user.purchaseInitialized.value) {
-        await user.initPurchase();
-      }
-      // Call RevenueCat restore
-      await Purchases.invalidateCustomerInfoCache();
-      final restoredInfo = await Purchases.restorePurchases();
-      await Purchases.invalidateCustomerInfoCache();
+  // void restorePurchases() async {
+  //   if (loading != null) {
+  //     return;
+  //   }
+  //   setState(() {
+  //     loading = "restore";
+  //   });
+  //   try {
+  //     if (!user.purchaseInitialized.value) {
+  //       await user.initPurchase();
+  //     }
+  //     // Call RevenueCat restore
+  //     await Purchases.invalidateCustomerInfoCache();
+  //     final restoredInfo = await Purchases.restorePurchases();
+  //     await Purchases.invalidateCustomerInfoCache();
 
-      if (restoredInfo.activeSubscriptions.isNotEmpty) {
-        // Update user plan on backend
-        await user.updatePlan().then((message) {
-          if (message == "success") {
-            customSnackbar(
-              "Restore Successful",
-              "Your purchases have been restored.",
-            );
-          }
-        });
-      } else {
-        customSnackbar("No Purchases", "No previous purchases were found.");
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      customSnackbar("Error", "Failed to restore purchases. Please try again.");
-    } finally {
-      setState(() {
-        loading = null;
-      });
-    }
-  }
+  //     if (restoredInfo.activeSubscriptions.isNotEmpty) {
+  //       // Update user plan on backend
+  //       await user.updatePlan().then((message) {
+  //         if (message == "success") {
+  //           customSnackbar(
+  //             "Restore Successful",
+  //             "Your purchases have been restored.",
+  //           );
+  //         }
+  //       });
+  //     } else {
+  //       customSnackbar("No Purchases", "No previous purchases were found.");
+  //     }
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //     customSnackbar("Error", "Failed to restore purchases. Please try again.");
+  //   } finally {
+  //     setState(() {
+  //       loading = null;
+  //     });
+  //   }
+  // }
 
   void makePayment(String packageName) async {
     if (loading != null) {
@@ -199,11 +208,28 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
         if (package != null) {
           // ignore: deprecated_member_use
           await Purchases.purchasePackage(package);
-          await user.updatePlan().then((message) {
-            if (message == "success") {
-              customSnackbar("Payment Successful", "You have been Subscribed");
-            }
-          });
+          String planName;
+          if (packageName == "\$rc_annual") {
+            planName = "pro";
+            await user.updatePlan(planName).then((message) {
+              if (message == "success") {
+                customSnackbar(
+                  "Payment Successful",
+                  "You have been Subscribed",
+                );
+              }
+            });
+          } else if (packageName == "\$rc_monthly") {
+            planName = "basic";
+            await user.updatePlan(planName).then((message) {
+              if (message == "success") {
+                customSnackbar(
+                  "Payment Successful",
+                  "You have been Subscribed",
+                );
+              }
+            });
+          }
         } else {
           customSnackbar("Error", "Something went wrong. Please try again.");
         }

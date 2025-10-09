@@ -79,6 +79,8 @@ class AuthController extends GetxController {
     }
   }
 
+  
+  
   Future<String> login(
     String email,
     String password, {

@@ -31,7 +31,10 @@ class ApiService {
   }
 
   Future<Map<String, String>> _getHeaders(bool authReq) async {
-    Map<String, String> headers = {'Content-Type': 'application/json'};
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json',
+    };
     if (authReq) {
       final token = await SharedPrefsService.get('token');
       headers['Authorization'] = 'Bearer $token';

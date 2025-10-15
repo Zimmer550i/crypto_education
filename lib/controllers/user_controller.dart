@@ -135,7 +135,7 @@ class UserController extends GetxController {
     try {
       final response = await api.post(
         "/api/v1/subscriptions/add_subscription/",
-        {"package_name": planName,},
+        {"package_name": planName},
         authReq: true,
       );
       final body = jsonDecode(response.body);
@@ -176,7 +176,7 @@ class UserController extends GetxController {
     isLoading.value = true;
     try {
       final response = await api.delete(
-        "/api/v1/auth/user_details/${userInfo.value!.userId}",
+        "/api/v1/auth/user_details/${userInfo.value!.userId}/",
         authReq: true,
       );
 

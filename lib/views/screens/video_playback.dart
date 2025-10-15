@@ -112,6 +112,8 @@ class _VideoPlaybackState extends State<VideoPlayback> {
                       child: CustomButton(
                         text: "subscribe".tr,
                         onTap: () {
+                          Get.back();
+                          Get.back();
                           Get.to(() => SubscriptionPlan());
                         },
                       ),

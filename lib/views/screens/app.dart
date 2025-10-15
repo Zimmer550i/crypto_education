@@ -227,6 +227,17 @@ class _AppState extends State<App> {
                       child: CustomButton(
                         text: "subscribe".tr,
                         onTap: () {
+                          Get.back();
+                          controller.animateToPage(
+                            prevIndex,
+                            duration: Duration(
+                              milliseconds: (prevIndex - index).abs() * 100,
+                            ),
+                            curve: Curves.easeOut,
+                          );
+                          setState(() {
+                            index = prevIndex;
+                          });
                           Get.to(() => SubscriptionPlan());
                         },
                       ),

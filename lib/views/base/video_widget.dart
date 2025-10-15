@@ -29,6 +29,15 @@ class _VideoWidgetState extends State<VideoWidget> {
     super.initState();
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url));
     flickManager = FlickManager(videoPlayerController: _controller);
+    _controller.addListener(() {
+      if (_controller.value.hasError) {
+        debugPrint('❌ Error: ${_controller.value.errorDescription}');
+        debugPrint('Controller value: ${_controller.value}');
+        setState(() {
+          
+        });
+      }
+    });
   }
 
   @override
@@ -68,7 +77,18 @@ class _VideoWidgetState extends State<VideoWidget> {
         ),
         playerErrorFallback: Stack(
           children: [
-            Center(child: Icon(Icons.error_outline)),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(_controller.value.errorDescription ?? ""),
+                  ),
+                ],
+              ),
+            ),
             Positioned(
               top: 12,
               left: 20,
